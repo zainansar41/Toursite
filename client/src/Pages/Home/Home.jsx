@@ -1,7 +1,7 @@
 import React from 'react'
-
+import PopularDest from '../../Components/PopularDestination/PopularDest'
 export default function Home() {
     return (
-        <h1>Hello</h1>
+        <PopularDest/>
     )
 }
