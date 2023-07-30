@@ -6,6 +6,8 @@ import homeHero from '../../Assets/homeHero.jpg'
 import ServiceSec from '../../Components/ServicesSection/ServiceSec'
 import Trip from '../../Components/trip/Trip'
 
+import TourCard from '../../Components/TourCard/TourCard'
+
 export default function Home() {
     return (
         <>
@@ -13,6 +15,7 @@ export default function Home() {
             <PopularDest />
             <ServiceSec />
             <Trip />
+            <TourCard />
         </>
     )
 }

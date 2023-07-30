@@ -1,0 +1,101 @@
+
+.tourContainer {
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 100px;
+}
+
+.tourCard {
+  height: 280px;
+  max-width: 350px;
+  margin: 0 20px;
+  background: white;
+  transition: 0.4s;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.tourCard:hover {
+  height: 400px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.tourCard .img {
+  height: 200px;
+  width: 100%;
+}
+
+.tourCard .img img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.tourCard .top-text {
+  padding: 5px;
+}
+
+.tourCard .top-text .name {
+  font-size: 25px;
+  font-weight: 600;
+  color: #202020;
+}
+
+.tourCard .top-text p {
+  font-size: 20px;
+  font-weight: 600;
+  color: #e74c3c;
+  line-height: 20px;
+}
+
+.tourCard .bottom-text {
+  padding: 0 20px 10px 20px;
+  margin-top: 5px;
+  background: white;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.1s;
+}
+
+.tourCard:hover .bottom-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tourCard .bottom-text .text {
+  text-align: justify;
+}
+
+.tourCard .bottom-text .Tourbtn {
+  margin: 10px 0;
+  text-align: left;
+}
+
+.tourCard .bottom-text .Tourbtn a {
+  text-decoration: none;
+  background: #e74c3c;
+  color: #f2f2f2;
+  padding: 5px 8px;
+  border-radius: 3px;
+  display: inline-flex;
+  transition: 0.2s;
+}
+
+.tourCard .bottom-text .btn a:hover {
+  transform: scale(0.9);
+}
+
+@media screen and (max-width: 978px) {
+  .tourContainer {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .tourCard {
+    max-width: 700px;
+    margin: 20px 0;
+  }
+}
