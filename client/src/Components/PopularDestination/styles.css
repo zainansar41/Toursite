@@ -89,3 +89,13 @@ article.active.content {
     opacity: 1;
     visibility: visible;
 }
+
+@media (max-width:500px) {
+    article {
+        width: 34px;
+    }
+    article.active {
+        width: 250px;
+        opacity: 1;
+    }
+}

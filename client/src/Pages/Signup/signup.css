@@ -26,7 +26,7 @@
 
 .title {
     font-size: 28px;
-    color: royalblue;
+    color: white;
     font-weight: 600;
     letter-spacing: -1px;
     position: relative;
@@ -43,13 +43,13 @@
     width: 16px;
     border-radius: 50%;
     left: 0px;
-    background-color: royalblue;
+    color: white;
 }
 
 .title::before {
     width: 18px;
     height: 18px;
-    background-color: royalblue;
+    color: white;
 }
 
 .title::after {
@@ -57,10 +57,13 @@
     height: 18px;
     animation: pulse 1s linear infinite;
 }
+.message{
+    color: white;
+}
 
 .message,
 .signin {
-    color: rgba(88, 87, 87, 0.822);
+    color: white;
     font-size: 14px;
 }
 
@@ -69,7 +72,7 @@
 }
 
 .signin a {
-    color: royalblue;
+    color: white;
 }
 
 .signin a:hover {
