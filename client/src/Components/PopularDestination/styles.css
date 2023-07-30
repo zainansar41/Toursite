@@ -1,7 +1,15 @@
+.popular_dest{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem 0;
+}
 section {
     display: flex;
     gap: 10px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 article {
