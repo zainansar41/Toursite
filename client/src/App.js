@@ -7,6 +7,7 @@ import Login from './Pages/Login/Login';
 import Signup from './Pages/Signup/Signup';
 import Contactus from './Pages/Contactus/Contactus';
 import Detail from './Pages/DetailPage/Detail';
+import TourUpload from './Pages/TourUploader/TourUpload';
 
 import {
   BrowserRouter as Router,
@@ -35,6 +36,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/contact" element={<Contactus />} />
           <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/upload" element={<TourUpload />} />
 
         </Routes>
         {!path && <Footer />}

@@ -9,6 +9,7 @@ export default function Detail() {
             <div className="detail-info">
                 <h1 className='Tourtitle'>Tour Name</h1>
                 <h4 className='TourLocation'>Location</h4>
+                <h4 className='from'>From</h4>
                 <h4 className='price'>Price</h4>
                 <p className='TourDesc'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error ea non voluptatum quod ipsam animi quidem! Distinctio consequuntur et, explicabo dolores iste aliquam magnam nobis at in magni ullam. Animi. Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore labore, debitis ducimus illo animi nemo ipsum ut? Culpa, voluptatem maxime facere nostrum similique quae doloribus enim dolore et perspiciatis incidunt. Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur harum illum ab earum exercitationem quasi, ea quidem adipisci soluta? Doloremque nulla numquam facere animi illum fugit distinctio quasi quam molestias?</p>
                 <h4 className='TourStart'>10/23.12</h4>

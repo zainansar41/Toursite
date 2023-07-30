@@ -1,0 +1,87 @@
+.uploadPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.upload{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    width: 60%;
+    height: 50%;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+    padding: 20px;
+}
+
+.upload_heading{
+    font-size: 2rem;
+    font-weight: 600;
+    color: #355891;
+    margin-bottom: 20px;
+}
+.upload_form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+.text_div{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+}
+.text_div label{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #355891;
+    margin-right: 10px;
+}
+.text_div .input{
+    width: 70%;
+    padding: 10px 10px 10px 20px;
+    outline: 0;
+    border: 1px solid #355891;
+    border-radius: 5px;
+    justify-self: flex-end;
+}
+
+.date_div{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 80%;
+    margin: 10px 0;
+}
+.date_div label{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #355891;
+    margin-right: 10px;
+}
+
+.date_div input{
+    width: 30%;
+    padding: 10px 10px 10px 20px;
+    outline: 0;
+    border: 1px solid #355891;
+    border-radius: 5px;
+    justify-self: flex-end;
+}
+
+.text_div textarea{
+    resize: none;
+    width: 300px;
+    padding: 10px 10px 10px 20px;
+    height: 100px;
+}
