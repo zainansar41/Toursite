@@ -8,6 +8,8 @@ import Signup from './Pages/Signup/Signup';
 import Contactus from './Pages/Contactus/Contactus';
 import Detail from './Pages/DetailPage/Detail';
 import TourUpload from './Pages/TourUploader/TourUpload';
+import AdminMain from './Pages/Admin/AdminMain/AdminMain';
+
 
 import {
   BrowserRouter as Router,
@@ -37,6 +39,7 @@ function App() {
           <Route path="/contact" element={<Contactus />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/upload" element={<TourUpload />} />
+          <Route path="/admin/main" element={<AdminMain />} />
 
         </Routes>
         {!path && <Footer />}
