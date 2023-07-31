@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import './Login.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../../Hooks/customHook';
+import toast, { Toaster } from 'react-hot-toast'
+
 
 const Signup = () => {
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -13,15 +17,29 @@ const Signup = () => {
         setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async(event) => {
         event.preventDefault();
-        // Here you can handle form submission with the formData
-        // For example, you can make an API call to log in the user
+        const {status, token } = await loginUser(formData)
+        if (status === 203) {
+            toast.error("invalid credentials")
+            navigate('/login')
+        }
+        else{
+            toast.success("Logged in")
+            // history.back()
+            localStorage.setItem('token', token)
+            navigate('/')
+        }
+
         console.log(formData);
     };
 
     return (
         <div className="signup">
+            <Toaster
+                position="top-right"
+                reverseOrder={false}
+            />
             <form className="form" onSubmit={handleSubmit}>
                 <p className="title">Login</p>
                 <p className="message">Please enter your email and password to log in.</p>

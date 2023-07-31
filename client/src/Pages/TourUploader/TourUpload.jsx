@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
 import './tourUpload.css'
+import convertBase64 from '../../helper/convert';
+import toast, { Toaster } from 'react-hot-toast'
+import { uploadTour } from '../../Hooks/customHook';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function TourUpload() {
+    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         tourName: '',
         location: '',
@@ -10,7 +16,7 @@ export default function TourUpload() {
         endDate: '',
         hostedBy: '',
         description: '',
-        image: null,
+        image: '',
         price: '',
     });
 
@@ -22,14 +28,16 @@ export default function TourUpload() {
         }));
     };
 
-    const handleImageChange = (event) => {
+    const handleImageChange = async (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
 
-        reader.onloadend = () => {
+        reader.onloadend = async () => {
+            const base64 = await convertBase64(file)
+
             setFormData((prevFormData) => ({
                 ...prevFormData,
-                image: reader.result,
+                image: base64,
             }));
         };
 
@@ -38,15 +46,27 @@ export default function TourUpload() {
         }
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Here you can handle form submission with the formData
-        // For example, you can make an API call to upload the tour data
-        console.log(formData);
+        const {msg, status} = await uploadTour(formData)
+        if(status === 201){
+            toast.success(msg)
+        }
+        else if(status === 200){
+            toast('waiting for Admin to Approve', {
+                icon: '👍',
+              });
+        }
+
+        navigate('/upload')
     };
 
     return (
         <div className="uploadPage">
+            <Toaster
+                position="top-right"
+                reverseOrder={false}
+            />
             <div className="upload">
                 <h1 className="upload_heading">
                     Upload Tour A new Tour
@@ -66,9 +86,9 @@ export default function TourUpload() {
                         />
                     </div>
                     <div className="text_div">
-                        <label htmlFor='location'>Tour Name</label>
+                        <label htmlFor='location'>Location</label>
                         <input required
-                            placeholder="Tour Name"
+                            placeholder="Tour Location ? where to go"
                             type="text"
                             className="input"
                             name="location"
@@ -78,9 +98,9 @@ export default function TourUpload() {
                         />
                     </div>
                     <div className="text_div">
-                        <label htmlFor='from'>Tour Name</label>
+                        <label htmlFor='from'>from</label>
                         <input required
-                            placeholder="Tour Name"
+                            placeholder="from where?"
                             type="text"
                             className="input"
                             name="from"
