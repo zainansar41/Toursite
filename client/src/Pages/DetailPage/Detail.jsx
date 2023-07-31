@@ -1,28 +1,59 @@
-import React from 'react'
-import './styles.css'
-
+import React, { useEffect, useState } from 'react';
+import './styles.css';
+import { useParams } from 'react-router-dom';
+import { fetchTour } from '../../Hooks/customHook';
 
 export default function Detail() {
-    return (
-        <div className="detail">
-            <img src="https://plus.unsplash.com/premium_photo-1690164161389-1921e4981b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=875&q=80" alt="" />
-            <div className="detail-info">
-                <h1 className='Tourtitle'>Tour Name</h1>
-                <h4 className='TourLocation'>Location</h4>
-                <h4 className='from'>From</h4>
-                <h4 className='price'>Price</h4>
-                <p className='TourDesc'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error ea non voluptatum quod ipsam animi quidem! Distinctio consequuntur et, explicabo dolores iste aliquam magnam nobis at in magni ullam. Animi. Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore labore, debitis ducimus illo animi nemo ipsum ut? Culpa, voluptatem maxime facere nostrum similique quae doloribus enim dolore et perspiciatis incidunt. Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur harum illum ab earum exercitationem quasi, ea quidem adipisci soluta? Doloremque nulla numquam facere animi illum fugit distinctio quasi quam molestias?</p>
-                <h4 className='TourStart'>10/23.12</h4>
-                <h4 className='TourEnd'>10/23.12</h4>
-                <h4 className='TourHosted'>Hosted By</h4>
+  const { id } = useParams();
+  const [tour, setTour] = useState({});
+  const [loading, setLoading] = useState(true);
 
-                <div className="detail-btns">
-                    <button class="btn"> Book Now
-                    </button>
+  useEffect(() => {
+    fetchTour(id)
+      .then((result) => {
+        console.log(result);
+        setTour(result);
+        setLoading(false); // Mark the data as loaded
+      })
+      .catch((error) => {
+        console.error('Error fetching tour:', error);
+        setLoading(false); // Mark the data as loaded even in case of an error
+      });
+  }, [id]);
 
-                </div>
-            </div>
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
+  // Function to format the date to display only the month and year
+  const formatStartDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'long' });
+    const year = date.getFullYear();
+  
+    return `${day}-${month}-${year}`;
+  };
+
+  return (
+    <div className="detail">
+      <img src={tour.image} alt="" />
+      <div className="detail-info">
+        <h1 className="Tourtitle"> {tour.tourName}</h1>
+        <h4 className="TourLocation">where to go: {tour.location}</h4>
+        <h4 className="from">from where : {tour.from}</h4>
+        <h4 style={{color:'royalblue'}} className="price">Price: {tour.price}</h4>
+        <p className="TourDesc">{tour.description}</p>
+        <h4 className="TourStart">{formatStartDate(tour.startDate)}</h4>
+        {/* Use the formatStartDate function to display the formatted date */}
+        <h4 className="TourEnd">{formatStartDate(tour.endDate)}</h4>
+        {/* Use the formatStartDate function to display the formatted date */}
+        <h4 className="TourHosted">{tour.hostedBy}</h4>
+
+        <div className="detail-btns">
+          <button className="btn">Book Now</button>
         </div>
-    )
+      </div>
+    </div>
+  );
 }

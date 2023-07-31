@@ -118,3 +118,24 @@ export async function uploadTour(req, res) {
 
     }
 }
+
+export async function fetchAllTour(req, res){
+    try {
+        const tours = await Tour.find()
+        return res.status(200).send({tours})
+    } catch (error) {
+        return res.status(500).send({error})
+    }
+}
+
+export async function fetchTour(req, res){
+    try {
+
+        const {id} = req.params
+        const tour = await Tour.findOne({_id: id})
+        return res.status(200).send({tour})
+        
+    } catch (error) {
+        return res.status(500).send({error})
+    }
+}

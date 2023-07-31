@@ -8,6 +8,8 @@ router.route('/get').get(controller.get)
 router.route('/signup').post(controller.signup)
 router.route('/login').post(controller.login)
 router.route('/uploadtour').post(auth, controller.uploadTour)
+router.route('/fecthalltours').get(controller.fetchAllTour)
+router.route('/fetchtour/:id').get(controller.fetchTour)
 
 
 export default router

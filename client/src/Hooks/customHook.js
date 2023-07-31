@@ -35,3 +35,25 @@ export async function uploadTour(data){
         return error 
     }
 }
+
+
+export async function fetchAllTours(){
+    try {
+        const {data :{tours}} = await axios.get('/api/fecthalltours')
+        return tours
+
+        
+    } catch (error) {
+        return error
+    }
+}
+
+export async function fetchTour(id){
+    try {
+        const {data:{tour}} = await axios.get(`/api//fetchtour/${id}`)
+        return tour
+        
+    } catch (error) {
+        return error
+    }
+}
