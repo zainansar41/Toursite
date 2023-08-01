@@ -20,6 +20,14 @@ export default function Confirmed({ tours }) {
         }
     };
 
+    const formatStartDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = date.toLocaleString('default', { month: 'long' });
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year}`;
+    };
 
     return (
         <div className="ConfirmTour_div">
@@ -37,8 +45,8 @@ export default function Confirmed({ tours }) {
                             <h3>{item.place}</h3>
                             <h4>Hosted by: {item.hosted_by}</h4>
                             <p>{item.description}</p>
-                            <h4>Start Date: {item.start_date}</h4>
-                            <h4>End Date: {item.end_date}</h4>
+                            <h4>Start Date: {formatStartDate(item.startDate)}</h4>
+                            <h4>End Date: {formatStartDate(item.endDate)}</h4>
                             <h4>Price: {item.price}</h4>
 
                             <div className="ConfirmTour_card_btns">
