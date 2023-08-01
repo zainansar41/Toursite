@@ -235,3 +235,20 @@ export async function BookNow(req, res){
         return res.status(500).send({ error });
     }
 }
+
+export async function fetchPeopleRoute(req, res) {
+    try {
+        const { id } = req.params;
+
+        const tour = await Tour.findOne({ _id: id }).populate('people', 'username email');
+
+        if (!tour) {
+            return res.status(202).send({ msg: "Tour not found" });
+        }
+
+        const people = tour.people;
+        return res.status(200).send({ people });
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}

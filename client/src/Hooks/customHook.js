@@ -104,3 +104,15 @@ export async function bookNow(id){
         return error
     }
 }
+
+export async function fetchAllPeople(id){
+    try {
+        const token = localStorage.getItem('token')
+        const { data: { people }, status } = await axios.get( `/api/fetchPeople/${id}`, { headers: { "authorization": `Bearer ${token}` } })
+
+        return {people, status}
+
+    } catch (error) {
+        return error
+    }
+}

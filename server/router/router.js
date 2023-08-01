@@ -14,6 +14,7 @@ router.route('/message').post(auth, controller.message)
 router.route('/accept').post(auth, controller.acceptTour)
 router.route('/rejectTour').post(auth, controller.rejectTour)
 router.route('/bookNow').post(auth, controller.BookNow)
+router.route('/fetchPeople/:id').get(auth, controller.fetchPeopleRoute)
 
 
 export default router

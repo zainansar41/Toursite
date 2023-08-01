@@ -1,8 +1,24 @@
 import React from 'react'
 import './styles.css'
 
+import { fetchAllPeople } from '../../Hooks/customHook'
 
-export default function Confirmed({tours}) {
+
+
+export default function Confirmed({ tours }) {
+
+    const viewPeople = async (id) => {
+        const { people, status } = await fetchAllPeople(id);
+        console.log(people);
+        if (people.length === 0) {
+            alert("No People");
+        } else {
+            const emails = people.map((person) => person.email).join("\n");
+            const heading = "List of Emails:";
+            const message = `${heading}\n${emails}`;
+            alert(message);
+        }
+    };
 
 
     return (
@@ -26,7 +42,7 @@ export default function Confirmed({tours}) {
                             <h4>Price: {item.price}</h4>
 
                             <div className="ConfirmTour_card_btns">
-                                <button className="ConfirmTour_card_btns_view_detail">View People</button>
+                                <button className="ConfirmTour_card_btns_view_detail" onClick={() => { viewPeople(item._id) }}>View People</button>
 
                             </div>
                         </div>
