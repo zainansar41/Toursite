@@ -2,32 +2,31 @@ import React from 'react'
 import "./styles.css";
 import { useState } from "react";
 
-
-import gilgit from '../../Assets/gilgit.jpg'
-import naran from '../../Assets/naran.jpg'
-import neelum from '../../Assets/neelum.jpg'
-import sawat from '../../Assets/sawat.jpg'
+import img1 from '../../Assets/img1.jpg'
+import img2 from '../../Assets/img2.jpg'
+import img3 from '../../Assets/img3.jpg'
+import img4 from '../../Assets/img4.jpg'
 
 
 const cards = [
     {
         header: "gilgit",
-        image: gilgit,
+        image: img1,
         text: "Image description here"
     },
     {
         header: "naran",
-        image: naran,
+        image: img2,
         text: "Image description here"
     },
     {
         header: "neelum",
-        image: neelum,
+        image: img3,
         text: "Image description here"
     },
     {
         header: "sawat",
-        image: sawat,
+        image: img4,
         text: "Image description here"
     }
 ];
@@ -48,7 +47,7 @@ export default function PopularDest() {
                             }
                             onClick={() => setActive(index)}
                         >
-                            <img src="https://plus.unsplash.com/premium_photo-1690164161389-1921e4981b69?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=875&q=80" alt="" />
+                            <img src={card.image} alt="" />
                             <div className='content'>
                                 <div>
                                     <h2>{card.header}</h2>

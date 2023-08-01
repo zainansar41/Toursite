@@ -15,6 +15,9 @@ router.route('/accept').post(auth, controller.acceptTour)
 router.route('/rejectTour').post(auth, controller.rejectTour)
 router.route('/bookNow').post(auth, controller.BookNow)
 router.route('/fetchPeople/:id').get(auth, controller.fetchPeopleRoute)
-
+router.route('/fetchMessage').get(auth, controller.fetchAllMessage)
+router.route('/seenMSG').post(auth, controller.seenMsg)
+router.route('/fetchUsers').get(auth, controller.fetchAllUser)
+router.route('/updateRole').post(auth, controller.changeRole)
 
 export default router

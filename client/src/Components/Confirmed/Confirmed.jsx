@@ -51,7 +51,6 @@ export default function Confirmed({ tours }) {
 
                             <div className="ConfirmTour_card_btns">
                                 <button className="ConfirmTour_card_btns_view_detail" onClick={() => { viewPeople(item._id) }}>View People</button>
-
                             </div>
                         </div>
 

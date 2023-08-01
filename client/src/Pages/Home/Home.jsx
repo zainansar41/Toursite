@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import PopularDest from '../../Components/PopularDestination/PopularDest'
 import Hero from '../../Components/heroSection/Hero'
-import homeHero from '../../Assets/homeHero.jpg'
 
 import ServiceSec from '../../Components/ServicesSection/ServiceSec'
 import Trip from '../../Components/trip/Trip'
 import CompleteTour from '../../Components/completeTour/CompleteTour'
+import hero from '../../Assets/hero.jpg'
 
 
 import { fetchAllTours } from '../../Hooks/customHook'
@@ -38,7 +38,7 @@ export default function Home() {
 
     return (
         <>
-            <Hero himg={homeHero} htag={"hero_tag"} hbtn={"BTN"} head={"Start Yout Journey with us"} hdesc={"we offer best pakage for traveling and exploring world"} />
+            <Hero himg={hero} htag={"hero_tag"} hbtn={"BTN"} head={"Start Yout Journey with us"} hdesc={"we offer best pakage for traveling and exploring world"} />
             <PopularDest />
             <ServiceSec />
             <Trip completedTours={completedTours} />

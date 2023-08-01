@@ -34,6 +34,8 @@ export async function signup(req, res) {
                     user.save().then(result => {
                         const token = jwt.sign({
                             userID: user._id,
+                            role: user.role,
+                            name:user.firstName
                         }, '@42/ahc', { expiresIn: "24h" })
                         res.status(201).send({ msg: "You has been register successfully", token })
 
@@ -68,6 +70,8 @@ export async function login(req, res) {
                         if (match) {
                             const token = jwt.sign({
                                 userID: user._id,
+                                role: user.role,
+                                name:user.firstName
                             }, '@42/ahc', { expiresIn: "24h" })
                             res.status(200).send({ msg: "You has been register successfully", token })
 
@@ -248,6 +252,61 @@ export async function fetchPeopleRoute(req, res) {
 
         const people = tour.people;
         return res.status(200).send({ people });
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}
+
+export async function fetchAllMessage(req, res){
+    try {
+        const messages = await Contact.find()
+        return res.status(200).send({ messages })
+        
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}
+
+export async function seenMsg(req, res){
+    try {
+
+        const {id} = req.body
+        // delete the message
+
+        Contact.deleteOne({_id: id}).then(result => {
+            return res.status(201).send({ msg: "message deleted successfully" });
+        }).catch(error => {
+            return res.status(203).send({ msg: "message not found or no changes made" });
+        })
+        
+    } catch (error) {
+        return res.status(500).send({ error });
+
+    }
+}
+
+export async function fetchAllUser(req, res){
+    try {
+        const users = await userModel.find()
+        return res.status(200).send({ users })
+        
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}
+
+export async function changeRole(req, res){
+    try {
+        const {id, role} = req.body
+        const result = await userModel.updateOne({ _id: id }, { $set: { role: role } });
+
+        if (result.nModified > 0) {
+            return res.status(201).send({ msg: "role changed successfully" });
+        }
+        else {
+            return res.status(203).send({ msg: "role not found or no changes made" });
+        }
+
     } catch (error) {
         return res.status(500).send({ error });
     }

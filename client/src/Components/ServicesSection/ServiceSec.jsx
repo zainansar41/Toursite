@@ -1,6 +1,7 @@
 import React from 'react'
 import './styles.css'
-import homeHero from '../../Assets/homeHero.jpg'
+import hero from '../../Assets/hero.jpg'
+
 
 
 
@@ -10,7 +11,7 @@ export default function ServiceSec() {
             <h1>Services</h1>
 
             <div className="service_sec">
-                <img className='ser_img' src={homeHero} alt="" />
+                <img className='ser_img' src={hero} alt="" />
                 <div className="services">
                     <div className="service">
                         <i class="fa-solid fa-house"></i>

@@ -1,6 +1,5 @@
 import React from 'react';
 import './styles.css'; // Make sure to import your CSS file
-import img13 from '../../Assets/img13.jpg'
 import { Link } from 'react-router-dom';
 
 const TourCard = ({data}) => {
@@ -8,7 +7,7 @@ const TourCard = ({data}) => {
     <div className="tourContainer">
       <div className="card tourCard">
         <div className="img">
-          <img src={img13} alt="Tour" />
+          <img src={data.image} alt="Tour" />
         </div>
         <div className="top-text">
           <div className="name">{data.tourName}</div>

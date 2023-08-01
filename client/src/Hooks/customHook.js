@@ -116,3 +116,46 @@ export async function fetchAllPeople(id){
         return error
     }
 }
+
+export async function fetchMessage(){
+    try {
+        
+        const token = localStorage.getItem('token')
+        const { data: { messages }, status } = await axios.get('/api/fetchMessage', { headers: { "authorization": `Bearer ${token}` } })
+        return { messages, status }
+
+    } catch (error) {
+        return error
+    }
+
+}
+
+export async function seenmsg(id){
+    try {
+        const token = localStorage.getItem('token')
+        const { data: { msg }, status } = await axios.post('/api/seenMSG',{id}, { headers: { "authorization": `Bearer ${token}` } })
+        return { msg, status }
+    } catch (error) {
+        return error
+    }
+}
+
+export async function fetchUsers(){
+    try {
+        const token = localStorage.getItem('token') 
+        const { data: { users }, status } = await axios.get('/api/fetchUsers', { headers: { "authorization": `Bearer ${token}` } })
+        return { users, status }
+    } catch (error) {
+        return error
+    }
+}
+
+export async function changeRole(id, role){
+    try {
+        const token = localStorage.getItem('token')
+        const { data: { msg }, status } = await axios.post('/api/updateRole', {id, role},{ headers: { "authorization": `Bearer ${token}` } })
+        return { msg, status }
+    } catch (error) {
+        return error
+    }
+}
