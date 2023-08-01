@@ -10,6 +10,6 @@ export default async function auth(req,res,next){
 
         next()
     } catch (error) {
-        res.send({error:" authentication failed"})
+        res.status(202).send({msg:" authentication failed"})
     }
 }

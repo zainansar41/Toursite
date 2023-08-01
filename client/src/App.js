@@ -10,6 +10,7 @@ import Detail from './Pages/DetailPage/Detail';
 import TourUpload from './Pages/TourUploader/TourUpload';
 import AdminMain from './Pages/Admin/AdminMain/AdminMain';
 
+import TripPage from './Pages/TripPage/TripPage';
 
 import {
   BrowserRouter as Router,
@@ -40,6 +41,7 @@ function App() {
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/upload" element={<TourUpload />} />
           <Route path="/admin/main" element={<AdminMain />} />
+          <Route path="/trips" element={<TripPage />} />
 
         </Routes>
         {!path && <Footer />}

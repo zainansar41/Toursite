@@ -1,7 +1,8 @@
-import React from 'react'
-import TourCard from '../TourCard/TourCard'
+import React from 'react';
+import TourCard from '../TourCard/TourCard';
 
-export default function CompleteTour({plannedTours}) {
+export default function CompleteTour({ plannedTours }) {
+
     return (
         <div className="trip">
             <h1>Where we Going</h1>
@@ -11,5 +12,6 @@ export default function CompleteTour({plannedTours}) {
                     <TourCard key={index} data={tripData} />
                 ))}
             </div>
-        </div>)
+        </div>
+    );
 }

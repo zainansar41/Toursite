@@ -74,3 +74,37 @@
     transform: scaleX(1.4) scaleY(1.6);
     opacity: 0;
 }
+
+@media (max-width: 790px) {
+    .detail .detail-info {
+        width: 40%;
+    }
+}
+
+@media (max-width: 680px) {
+    .detail .detail-info {
+        width: 30%;
+    }
+
+    .detail img {
+        width: 200px;
+        height: 300px;
+    }
+}
+
+@media (max-width: 500px) {
+    .detail .detail-info {
+        margin-top: 50px;
+
+        width: 70%;
+    }
+
+    .detail {
+        flex-direction: column;
+    }
+
+    .detail img {
+        width: 300px;
+        height: 350px;
+    }
+}

@@ -1,5 +1,6 @@
 import userModel from "../models/userModel.js"
 import Tour from "../models/TourModel.js"
+import Contact from "../models/Contact.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -91,51 +92,146 @@ export async function uploadTour(req, res) {
     try {
         const { userID } = req.user
         const { tourName, location, from, startDate, endDate, hostedBy, description, image, price } = req.body
-        const tour = new Tour({
-            tourName,
-            location,
-            from,
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
-            hostedBy,
-            description,
-            image,
-            price,
+
+        userModel.findOne({ _id: userID }).then(user => {
+            if (user.role === "admin") {
+                const tour = new Tour({
+                    tourName,
+                    location,
+                    from,
+                    startDate: new Date(startDate),
+                    endDate: new Date(endDate),
+                    hostedBy,
+                    description,
+                    image,
+                    price,
+                    confirmed: true
+                })
+                tour.save().then(result => {
+                    return res.status(201).send({ msg: "tour uploaded successfully" })
+                })
+            }
+            else if (user.role === "HM") {
+                const tour = new Tour({
+                    tourName,
+                    location,
+                    from,
+                    startDate: new Date(startDate),
+                    endDate: new Date(endDate),
+                    hostedBy,
+                    description,
+                    image,
+                    price,
+                    confirmed: false
+                })
+                tour.save().then(result => {
+                    return res.status(200).send({ msg: "request is pending" })
+                })
+            }
         })
 
-        tour.save().then(result => {
-            userModel.findOne({ _id: userID }).then(user => {
-                if (user.role === "admin") {
-                    return res.status(201).send({ msg: "tour uploaded successfully" })
-                }
-                else if (user.role === "HM") {
-                    return res.status(200).send({ msg: "request is pending" })
-                }
-            })
-        })
 
     } catch (error) {
 
     }
 }
 
-export async function fetchAllTour(req, res){
+export async function fetchAllTour(req, res) {
     try {
         const tours = await Tour.find()
-        return res.status(200).send({tours})
+        return res.status(200).send({ tours })
     } catch (error) {
-        return res.status(500).send({error})
+        return res.status(500).send({ error })
     }
 }
 
-export async function fetchTour(req, res){
+export async function fetchTour(req, res) {
     try {
 
-        const {id} = req.params
-        const tour = await Tour.findOne({_id: id})
-        return res.status(200).send({tour})
+        const { id } = req.params
+        const tour = await Tour.findOne({ _id: id })
+        return res.status(200).send({ tour })
+
+    } catch (error) {
+        return res.status(500).send({ error })
+    }
+}
+
+export async function message(req, res) {
+    try {
+
+        const { userID } = req.user
+        const { firstName, email, message, lastName, contactNumber } = req.body
+        const contact = new Contact({
+            firstName,
+            email,
+            message,
+            lastName,
+            contactNumber
+        })
+        contact.save().then(result => {
+            return res.status(201).send({ msg: "message sent successfully" })
+        })
+
+
+    } catch (error) {
+        return res.status(500).send({ error })
+
+    }
+}
+
+export async function acceptTour(req, res) {
+    try {
+        const { userID } = req.user;
+        const { id } = req.body;
+
+        // Use the updateOne query to update the 'confirmed' field directly
+        const result = await Tour.updateOne({ _id: id }, { $set: { confirmed: true } });
+
+        // Check if the update was successful
+        if (result.nModified > 0) {
+            return res.status(201).send({ msg: "tour accepted successfully" });
+        } else {
+            return res.status(203).send({ msg: "Tour not found or no changes made" });
+        }
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}
+
+export async function rejectTour(req, res) {
+    try {
+        const { userID } = req.user;
+        const { id } = req.body;
+        
+        Tour.deleteOne({ _id: id }).then(result => {
+            return res.status(201).send({ msg: "tour rejected successfully" });
+        }).catch(error => {
+            return res.status(203).send({ msg: "Tour not found or no changes made" });
+        })
+    } catch (error) {
+        return res.status(500).send({ error });
+
+    }
+}
+
+
+export async function BookNow(req, res){
+    try {
+        const { userID } = req.user;
+        const { id } = req.body;
+
+        // Use the updateOne query with $push operator to add the userID to the people array
+        // const result = await Tour.updateOne({ _id: id }, { $push: { people: userID } });
+
+        Tour.updateOne({_id: id}, {$push: {people: userID}}).then(result => {
+            res.status(201).send({ msg: "tour booked successfully" });
+        }).catch(error => {
+            res.status(203).send({ msg: "Tour not found or no changes made" });
+        })
+        
         
     } catch (error) {
-        return res.status(500).send({error})
+        return res.status(500).send({ error });
     }
 }

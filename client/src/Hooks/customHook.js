@@ -4,8 +4,8 @@ axios.defaults.baseURL = "http://localhost:8000"
 
 export async function registerUser(credentials) {
     try {
-        const { data: { msg, token }, status  } = await axios.post('/api/signup', credentials)
-        return {msg, status, token}
+        const { data: { msg, token }, status } = await axios.post('/api/signup', credentials)
+        return { msg, status, token }
 
     }
     catch (error) {
@@ -13,46 +13,93 @@ export async function registerUser(credentials) {
     }
 }
 
-export async function loginUser(credentials){
+export async function loginUser(credentials) {
     try {
-        const {data:{msg, token}, status} = await axios.post('/api/login', credentials)
-        
-        return{msg, status, token}
-        
+        const { data: { msg, token }, status } = await axios.post('/api/login', credentials)
+
+        return { msg, status, token }
+
     } catch (error) {
         return error
     }
 }
 
 
-export async function uploadTour(data){
-    try{
-        const token =  localStorage.getItem('token')
-        const {data:{msg}, status} = await axios.post('/api/uploadtour', data, { headers: { "authorization": `Bearer ${token}` } })
-        return {msg, status}
+export async function uploadTour(data) {
+    try {
+        const token = localStorage.getItem('token')
+        const { data: { msg }, status } = await axios.post('/api/uploadtour', data, { headers: { "authorization": `Bearer ${token}` } })
+        return { msg, status }
     }
-    catch(error){
-        return error 
+    catch (error) {
+        return error
     }
 }
 
 
-export async function fetchAllTours(){
+export async function fetchAllTours() {
     try {
-        const {data :{tours}} = await axios.get('/api/fecthalltours')
+        const { data: { tours } } = await axios.get('/api/fecthalltours')
         return tours
 
+
+    } catch (error) {
+        return error
+    }
+}
+
+export async function fetchTour(id) {
+    try {
+        const { data: { tour } } = await axios.get(`/api//fetchtour/${id}`)
+        return tour
+
+    } catch (error) {
+        return error
+    }
+}
+
+export async function ContactMessage(data) {
+    try {
+        const token = localStorage.getItem('token')
+        const { data: { msg }, status } = await axios.post('/api/message', data, { headers: { "authorization": `Bearer ${token}` } })
+
+        return { msg, status }
+    } catch (error) {
+        return error
+    }
+}
+
+export async function acceptOffer(id) {
+    try {
+        const token = localStorage.getItem('token')
+        console.log(id);
+        const { data: { msg }, status } = await axios.post('/api/accept',{id}, { headers: { "authorization": `Bearer ${token}` } })
+        return { msg, status }
+
+    } catch (error) {
+        return error
+    }
+}
+
+export async function rejectTour(id) {
+    try {
+        const token = localStorage.getItem('token')
+        console.log(id);
+        const { data: { msg }, status } = await axios.post('/api/rejectTour',{id}, { headers: { "authorization": `Bearer ${token}` } })
+        console.log(status);
+        return { msg, status }
         
     } catch (error) {
         return error
     }
 }
 
-export async function fetchTour(id){
+export async function bookNow(id){
     try {
-        const {data:{tour}} = await axios.get(`/api//fetchtour/${id}`)
-        return tour
         
+        const token = localStorage.getItem('token')
+        const { data: { msg }, status } = await axios.post('/api/bookNow',{id}, { headers: { "authorization": `Bearer ${token}` } })
+        return { msg, status }
     } catch (error) {
         return error
     }

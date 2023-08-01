@@ -32,7 +32,6 @@ export default function Home() {
         setplannedTours(a)
         setongoingTours(b)
         setcompletedTours(c)
-        console.log(plannedTours, ongoingTours, completedTours);
 
 
     },[tours])

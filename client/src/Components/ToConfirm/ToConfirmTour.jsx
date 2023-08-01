@@ -1,66 +1,45 @@
 import React from 'react'
 import './styles.css'
 
-import img13 from '../../Assets/img13.jpg'
+import { acceptOffer, rejectTour } from '../../Hooks/customHook';
+import toast, { Toaster } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom';
 
-const data = [
-    {
-        img: img13,
-        name: 'Tour 1',
-        place: 'Place 1',
-        hosted_by: 'Host 1',
-        description: 'Description 1 lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        start_date: '2021-05-01',
-        end_date: '2021-05-05',
-        price: 100,
-        status: 'pending'
-    },
-    {
-        img: img13,
-        name: 'Tour 1',
-        place: 'Place 1',
-        hosted_by: 'Host 1',
-        description: 'Description 1 lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        start_date: '2021-05-01',
-        end_date: '2021-05-05',
-        price: 100,
-        status: 'pending'
-    },
-    {
-        img: img13,
-        name: 'Tour 1',
-        place: 'Place 1',
-        hosted_by: 'Host 1',
-        description: 'Description 1 lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        start_date: '2021-05-01',
-        end_date: '2021-05-05',
-        price: 100,
-        status: 'pending'
-    },
-    {
-        img: img13,
-        name: 'Tour 1',
-        place: 'Place 1',
-        hosted_by: 'Host 1',
-        description: 'Description 1 lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        start_date: '2021-05-01',
-        end_date: '2021-05-05',
-        price: 100,
-        status: 'pending'
-    },
 
-]
 
-export default function ToConfirmTour() {
+
+export default function ToConfirmTour({ tours }) {
+    const navigate = useNavigate()
+    const handleAcceptBTN = async (id) => {
+        const { status } = await acceptOffer(id)
+        if (status === 203) {
+            toast.success("Update successful")
+            navigate('/admin/main')
+        }
+
+
+    }
+    const handleRejectBTN = async (id) => {
+        const {msg, status} = await rejectTour(id)
+        if(status === 201){
+            toast.success(msg)
+            navigate('/admin/main')
+        }
+
+    }
     return (
         <div className="toConfirmTour_div">
+            <Toaster
+                position="top-right"
+                reverseOrder={false}
+            />
             <h1 className="toConfirmTour_title">To Confirm Tours</h1>
             <div className="toConfirmTour_container">
-                {data.map((item, index) => (
+                {tours.map((item, index) => (
                     <div className="toConfirmTour_card" key={index}>
 
                         <div className="toConfirmTour_card_img">
-                            <img src={item.img} alt="" />
+                            <img src={item.image} alt="" />
                         </div>
 
                         <div className="toConfirmTour_card_info">
@@ -71,11 +50,11 @@ export default function ToConfirmTour() {
                             <h4>Start Date: {item.start_date}</h4>
                             <h4>End Date: {item.end_date}</h4>
                             <h4>Price: {item.price}</h4>
-                            <h4 style={{color:'red'}}>Status: {item.status}</h4>
+                            <h4 style={{ color: 'red' }}>Status: {item.status}</h4>
 
                             <div className="toConfirmTour_card_btns">
-                                <button className="toConfirmTour_card_btns_accept">Accept</button>
-                                <button className="toConfirmTour_card_btns_reject">Reject</button>
+                                <button className="toConfirmTour_card_btns_accept" onClick={() => handleAcceptBTN(item._id)}>Accept</button>
+                                <button className="toConfirmTour_card_btns_reject" onClick={()=>handleRejectBTN(item._id)}>Reject</button>
 
                             </div>
                         </div>
