@@ -53,7 +53,7 @@ const Signup = () => {
                         value={formData.email}
                         onChange={handleChange}
                     />
-                    <p className='span'>Email</p>
+                    <p style={{fontSize:'16px'}} className='span'>Email</p>
                 </label>
 
                 <label>
@@ -66,7 +66,7 @@ const Signup = () => {
                         value={formData.password}
                         onChange={handleChange}
                     />
-                    <p className='span'>Password</p>
+                    <p style={{fontSize:'16px'}} className='span'>Password</p>
                 </label>
 
                 <button type="submit" className="submit">

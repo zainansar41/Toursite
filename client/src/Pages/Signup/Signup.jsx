@@ -63,7 +63,7 @@ const Signup = () => {
                             value={formData.firstName}
                             onChange={handleChange}
                         />
-                        <p className='span'>Firstname</p>
+                        <p style={{fontSize:'16px'}} className='span'>Firstname</p>
                     </label>
 
                     <label>
@@ -76,7 +76,7 @@ const Signup = () => {
                             value={formData.lastName}
                             onChange={handleChange}
                         />
-                        <p className='span'>Lastname</p>
+                        <p style={{fontSize:'16px'}} className='span'>Lastname</p>
                     </label>
                 </div>
 
@@ -90,7 +90,7 @@ const Signup = () => {
                         value={formData.email}
                         onChange={handleChange}
                     />
-                    <p className='span'>Email</p>
+                    <p style={{fontSize:'16px'}} className='span'>Email</p>
                 </label>
 
                 <label>
@@ -103,7 +103,7 @@ const Signup = () => {
                         value={formData.password}
                         onChange={handleChange}
                     />
-                    <p className='span'>Password</p>
+                    <p style={{fontSize:'16px'}}className='span'>Password</p>
                 </label>
 
                 <label>
@@ -116,7 +116,7 @@ const Signup = () => {
                         value={formData.confirmPassword}
                         onChange={handleChange}
                     />
-                    <p className='span'>Confirm password</p>
+                    <p style={{fontSize:'16px'}} className='span'>Confirm password</p>
                 </label>
 
                 <button type="submit" className="submit">
