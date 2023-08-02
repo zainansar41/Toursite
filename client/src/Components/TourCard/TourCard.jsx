@@ -2,6 +2,11 @@ import React from 'react';
 import './styles.css'; // Make sure to import your CSS file
 import { Link } from 'react-router-dom';
 
+const addElipse = (str, limit)=>{
+  return str.length > limit ? str.substring(0, limit) + '....' :str;
+}
+
+
 const TourCard = ({ data }) => {
   return (
     <div class="card">
@@ -14,7 +19,7 @@ const TourCard = ({ data }) => {
         </Link>
 
         <p class="desc">
-          {data.description}
+          {addElipse(data.description, 300)}
         </p>
         <h3 className="price" style={{color:'royalBlue', fontWeight:'bold'}}>
           Price : {data.price}

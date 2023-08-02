@@ -5,11 +5,8 @@ import { Link } from 'react-router-dom';
 export default function Navbar({ name, role }) {
 
     const handleLogout = () => {
-        // Remove the 'token' from local storage
         localStorage.removeItem('token');
-
-        // Reload the page to ensure the UI reflects the logged-out state
-        window.location.reload();
+        window.location.href = '/'
     };
 
     return (

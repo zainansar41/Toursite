@@ -53,7 +53,7 @@ export default function ToConfirmTour({ tours }) {
                         <div className="toConfirmTour_card_info">
                             <h2>{item.name}</h2>
                             <h3>{item.place}</h3>
-                            <h4>Hosted by: {item.hosted_by}</h4>
+                            <h4>Hosted by: {item.hostedBy}</h4>
                             <p>{item.description}</p>
                             <h4>Start Date: {formatStartDate(item.startDate)}</h4>
                             <h4>End Date: {formatStartDate(item.endDate)}</h4>

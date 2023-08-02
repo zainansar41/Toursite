@@ -2,7 +2,6 @@ import React from 'react';
 import TourCard from '../TourCard/TourCard';
 
 export default function CompleteTour({ plannedTours }) {
-    // Filter the plannedTours array to get only confirmed trips (where confirmed === true)
     const confirmedTours = plannedTours.filter((tripData) => tripData.confirmed);
 
     return (
