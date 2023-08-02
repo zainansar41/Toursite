@@ -55,7 +55,11 @@ function App() {
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/trips" element={<TripPage />} />
 
-          {userRole === 'HM' || userRole === 'admin' && (
+          
+          {userRole === 'HM' && (
+            <Route path="/upload" element={<TourUpload />} />
+          )}
+          {userRole === 'admin' && (
             <Route path="/upload" element={<TourUpload />} />
           )}
           {userRole === 'admin' && (
