@@ -84,3 +84,32 @@ span {
 .BTN_no{
     display: none;
 }
+
+.input {
+    /* Your new styles for the select input */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    border: none;
+}
+
+label {
+    /* Your new styles for the label */
+    font-size: 16px;
+    margin-right: 5px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.search-container {
+    /* Your new styles for the search container */
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
