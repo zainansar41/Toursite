@@ -2,27 +2,31 @@ import React from 'react';
 import './styles.css'; // Make sure to import your CSS file
 import { Link } from 'react-router-dom';
 
-const TourCard = ({data}) => {
+const TourCard = ({ data }) => {
   return (
-    <div className="tourContainer">
-      <div className="card tourCard">
-        <div className="img">
-          <img src={data.image} alt="Tour" />
-        </div>
-        <div className="top-text">
-          <div className="name">{data.tourName}</div>
-          <p>Price : {data.price}</p>
-        </div>
-        <div className="bottom-text">
-          <div className="text">
-            {data.description}
-          </div>
-          <div className="Tourbtn">
-            <Link to={`/detail/${data._id}`}>Show Details</Link>
-          </div>
-        </div>
+    <div class="card">
+        <img src={data.image} className='image'alt="" />
+      <div class="content">
+        <Link to={`/detail/${data._id}`} className='a'>
+          <p class="title">
+            {data.tourName}
+          </p>
+        </Link>
+
+        <p class="desc">
+          {data.description}
+        </p>
+        <h3 className="price" style={{color:'royalBlue', fontWeight:'bold'}}>
+          Price : {data.price}
+        </h3>   
+
+        <Link class="action" to={`/detail/${data._id}`}>
+          Find out more
+          <span aria-hidden="true">
+            →
+          </span>
+        </Link>
       </div>
-      
     </div>
   );
 };

@@ -17,6 +17,7 @@
     display: grid;
     grid-template-columns: repeat(3, auto);
     gap: 10px;
+
 }
 .t-card{
     text-align: start;
@@ -29,6 +30,7 @@
 .t-image{
     height: 200px;
     overflow: hidden;
+
 }
 .t-image img{
     width: 100%;

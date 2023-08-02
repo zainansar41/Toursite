@@ -28,15 +28,15 @@ const Signup = () => {
             toast.error('password and confirmed password must be same')
         }
         else {
-            const {status, token } = await registerUser(formData)
+            const { status, token } = await registerUser(formData)
             if (status === 200) {
                 console.log("hello");
                 toast.error("email is already taken")
                 navigate('/signup')
             }
             else {
-                localStorage.setItem('token',token)
-                navigate('/')
+                localStorage.setItem('token', token)
+                window.location.href = '/'
             }
 
 

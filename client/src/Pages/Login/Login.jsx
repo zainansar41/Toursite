@@ -28,7 +28,7 @@ const Signup = () => {
             toast.success("Logged in")
             // history.back()
             localStorage.setItem('token', token)
-            navigate('/')
+            window.location.href = '/'
         }
 
         console.log(formData);
