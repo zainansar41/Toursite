@@ -10,7 +10,7 @@ const addElipse = (str, limit)=>{
 const TourCard = ({ data }) => {
   return (
     <div class="card">
-        <img src={data.image} className='image'alt="" />
+        <img src={`http://localhost:5000/images/${data.image}`} className='image'alt="" />
       <div class="content">
         <Link to={`/detail/${data._id}`} className='a'>
           <p style={{color:'black'}} class="title">

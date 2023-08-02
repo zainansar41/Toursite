@@ -96,7 +96,7 @@ export default function Detail() {
                         position="top-right"
                         reverseOrder={false}
                     />
-                    <img src={tour.image} alt="" />
+                    <img src={`http://localhost:5000/images/${tour.image}`} alt="" />
                     <div className="detail-info">
                         <h1 className="Tourtitle"> {tour.tourName}</h1>
                         <h4 className="TourLocation">where to go: {tour.location}</h4>

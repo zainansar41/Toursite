@@ -38,7 +38,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className="bottom">
-                <p>Copyright © 2023 <Link to={'/'}>TourSite</Link> All rights reserved</p>
+                <p>Copyright © 2023 <Link to={'/'}>EasyBooking</Link> All rights reserved</p>
             </div>
         </footer>
     );

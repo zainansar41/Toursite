@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './tourUpload.css';
-import convertBase64 from '../../helper/convert';
 import toast, { Toaster } from 'react-hot-toast';
 import { uploadTour } from '../../Hooks/customHook';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function TourUpload() {
     const navigate = useNavigate();
@@ -33,20 +33,22 @@ export default function TourUpload() {
 
     const handleImageChange = async (event) => {
         const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onloadend = async () => {
-            const base64 = await convertBase64(file);
-
-            setFormData((prevFormData) => ({
-                ...prevFormData,
-                image: base64,
-            }));
-        };
-
         if (file) {
-            reader.readAsDataURL(file);
+            const dataa = new FormData();
+            const filename = Date.now() + file.name;
+            dataa.append("name", filename);
+            dataa.append("file", file);
+            try {
+                await axios.post(`http://localhost:5000/api/upload`, dataa);
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    image: filename,
+                }));
+            } catch (err) {
+                console.log("err>>>", err);
+            }
         }
+
     };
 
     const handleSubmit = async (event) => {

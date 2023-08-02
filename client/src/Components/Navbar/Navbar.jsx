@@ -15,7 +15,7 @@ export default function Navbar({ name, role }) {
             <label htmlFor="check" className="checkbtn">
                 <i className="fas fa-bars"></i>
             </label>
-            <Link to="/" className="logo">Tour Site</Link>
+            <Link to="/" className="logo">EasyBooking</Link>
             <ul>
                 <li><Link to="/" className="active a">Home</Link></li>
                 {role !== 'admin' ? <li><Link className='a' to="/trips">Trips</Link></li> : null}

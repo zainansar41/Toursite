@@ -3,7 +3,7 @@ import cors from 'cors'
 import bodyParser from 'body-parser';
 import stripe from './router/stripe.js';
 import stripeCheckout from './router/stripeCheckout.js';
-
+import multer from 'multer';
 import router from './router/router.js';
 
 import connect from './database/conn.js'
@@ -42,6 +42,28 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: false, parameterLimit: 
 app.get('/', (req, res) => {
     res.send("Home Get request")
 })
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'images');
+    },
+    filename: function (req, file, cb) {
+        cb(null, req.body.name);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+app.post('/api/upload', upload.single("file"), (req, res) => {
+    if (req.file) {
+        res.status(200).json('File is Uploaded')
+    } else {
+        res.status(500).json('File is not Uploaded')
+    }
+});
+
+app.use('/images', express.static("images"))
+
 
 app.use('/api', router)
 app.use('/api/stripe', stripeCheckout)

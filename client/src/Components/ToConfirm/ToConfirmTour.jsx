@@ -47,7 +47,7 @@ export default function ToConfirmTour({ tours }) {
                     <div className="toConfirmTour_card" key={index}>
 
                         <div className="toConfirmTour_card_img">
-                            <img src={item.image} alt="" />
+                            <img src={`http://localhost:5000/images/${item.image}`}alt="" />
                         </div>
 
                         <div className="toConfirmTour_card_info">
