@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const URI = "mongodb://127.0.0.1:27017/easyBooking"
+const URI = "mongodb+srv://sample:sample@cluster0.5ojtmyt.mongodb.net/easyBooking"
 
 // import {MongoMemoryServer} from 'mongodb-memory-server'
 mongoose.set('strictQuery', true);

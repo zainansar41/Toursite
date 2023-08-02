@@ -1,16 +1,32 @@
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser';
+import stripe from './router/stripe.js';
+import stripeCheckout from './router/stripeCheckout.js';
 
 import router from './router/router.js';
 
 import connect from './database/conn.js'
 
 const app = express()
-const port = 8000;
+const port = 5000;
+connect().then(() => {
+    try {
 
+        app.listen(port, () => {
+            console.log(`Server connected to http://localhost:${port}`)
+        })
+    }
+    catch (err) {
+        console.log("connot connect")
+    }
+}).catch(error => {
+    console.log("invalid database connection")
+})
 
-app.use(express.json({limit:'10mb'}))
+app.use("/api/stripe", stripe);
+
+app.use(express.json({ limit: '10mb' }))
 app.use(cors())
 // app.use(morgan('tiny'))
 app.disable('x-powered-by')
@@ -27,19 +43,7 @@ app.get('/', (req, res) => {
     res.send("Home Get request")
 })
 
-app.use('/api',router)
+app.use('/api', router)
+app.use('/api/stripe', stripeCheckout)
 
 
-connect().then(() => {
-    try {
-
-        app.listen(port, () => {
-            console.log(`Server connected to http://localhost:${port}`)
-        })
-    }
-    catch (err) {
-        console.log("connot connect")
-    }
-}).catch(error => {
-    console.log("invalid database connection")
-})
