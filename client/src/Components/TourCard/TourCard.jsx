@@ -8,7 +8,7 @@ const TourCard = ({ data }) => {
         <img src={data.image} className='image'alt="" />
       <div class="content">
         <Link to={`/detail/${data._id}`} className='a'>
-          <p class="title">
+          <p style={{color:'black'}} class="title">
             {data.tourName}
           </p>
         </Link>
