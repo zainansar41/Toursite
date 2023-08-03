@@ -63,7 +63,7 @@ nav ul li .a {
     }
 }
 
-@media (max-width: 858px) {
+@media (max-width: 1027px) {
     .checkbtn {
         display: block; /* Show the bars at 858px */
     }

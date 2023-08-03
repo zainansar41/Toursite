@@ -14,6 +14,8 @@ import Message from './Pages/Admin/Message/Message';
 import TripPage from './Pages/TripPage/TripPage';
 import ShowUser from './Pages/Admin/showUser/ShowUser';
 import BookedSuccessfully from './BookedSuccessfully';
+import Hotels from './Pages/Hotels/Hotels';
+import Hoteldetail from './Pages/Hotels/Hoteldetail';
 
 import {
   BrowserRouter as Router,
@@ -56,6 +58,8 @@ function App() {
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/trips" element={<TripPage />} />
           <Route path="/payment-success" element={<BookedSuccessfully />} />
+          <Route path="/hotels" element={<Hotels/>}/>
+          <Route path="/hotels/:id" element={<Hoteldetail/>}/>
 
           
           {userRole === 'HM' && (

@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js"
 import Tour from "../models/TourModel.js"
 import Contact from "../models/Contact.js"
 import Order from "../models/Order.js"
+import Hotel from "../models/HotelModel.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -323,6 +324,62 @@ export async function getPeopleOfTour(req, res) {
         }
         console.log(people)
         return res.status(200).send({ people });
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}
+
+
+export async function addReview(req, res) {
+    try {
+        const {id} = req.params
+        const {userName, reviewText} = req.body
+        const tour = Tour.findOneAndUpdate({_id: id}, {$push: {reviews: {userName, reviewText}}})
+        return res.status(200).send({msg: "review added successfully"})
+
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}
+
+export async function addHotel(req, res){
+    try {
+        const {name, description, price, image, location, contactNumber} = req.body
+
+        const hotel = new Hotel({
+            hotelName: name,
+            description,
+            perDayPrice:price,
+            contactNo: contactNumber,
+            location,
+            image
+        })
+
+        hotel.save().then(result => {
+            return res.status(201).send({ msg: "hotel added successfully" })
+        }).catch(error => {
+            return res.status(203).send({ msg: "hotel not added" })
+        })
+        
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}
+
+export async function fetchAllHotel(req, res){
+    try {
+        const hotels = await Hotel.find()
+        return res.status(200).send({ hotels })
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}
+
+export async function fetchHotel(req, res){
+    try {
+        const {id} = req.params
+        const hotel = await Hotel.findOne({_id: id})
+        return res.status(200).send({ hotel })
     } catch (error) {
         return res.status(500).send({ error });
     }

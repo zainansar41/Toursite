@@ -19,6 +19,10 @@ router.route('/fetchMessage').get(auth, controller.fetchAllMessage)
 router.route('/seenMSG').post(auth, controller.seenMsg)
 router.route('/fetchUsers').get(auth, controller.fetchAllUser)
 router.route('/updateRole').post(auth, controller.changeRole)
-router.route('/get-people/:id').get(auth, controller.getPeopleOfTour)
+router.route('/get-people/:id').get(auth, controller.getPeopleOfTour) 
+router.route('/addReview/:id').post(auth, controller.addReview)
+router.route('/addHotel').post( controller.addHotel)
+router.route('/fetchAllHotel').get(controller.fetchAllHotel)
+router.route('/fetchHotel/:id').get(controller.fetchHotel)
 
 export default router

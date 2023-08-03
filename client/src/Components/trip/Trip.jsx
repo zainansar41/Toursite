@@ -11,7 +11,7 @@ export default function Trip({ completedTours }) {
       <p>You can discover unique destinations sing google maps</p>
       <div className="trip-card">
         {completedTours.map((tripData, index) => (
-          <TripData key={index} image={tripData.image} text={tripData.description} heading={tripData.tourName} />
+          <TripData key={index} image={tripData.image} text={tripData.description} heading={tripData.tourName} id={tripData._id} />
         ))}
       </div>
     </div>

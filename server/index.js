@@ -59,7 +59,7 @@ app.post('/api/upload', upload.single("file"), (req, res) => {
         res.status(200).json('File is Uploaded')
     } else {
         res.status(500).json('File is not Uploaded')
-    }
+    } 
 });
 
 app.use('/images', express.static("images"))

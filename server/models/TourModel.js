@@ -48,19 +48,29 @@ const tourSchema = new Schema({
     }],
     confirmed: {
         type: Boolean
-    }
+    },
+    reviews: [{
+        userName: {
+            type: String,
+            required: true,
+        },
+        review: {
+            type: String,
+            required: true,
+        },
+    }]
 });
 
 tourSchema.pre('save', function (next) {
     const currentDate = new Date();
     if (currentDate >= this.startDate && currentDate <= this.endDate) {
-      this.status = 'ongoing';
+        this.status = 'ongoing';
     } else if (currentDate > this.endDate) {
-      this.status = 'completed';
+        this.status = 'completed';
     }
     next();
-  });
-  
-  const Tour = mongoose.model('Tour', tourSchema);
+});
+
+const Tour = mongoose.model('Tour', tourSchema);
 
 export default Tour;

@@ -70,14 +70,14 @@ export default function Confirmed({ tours }) {
                 contentLabel="Modal"
             >
                 <h2 className="modal-title">List of People who paid </h2>
-                <div style={{marginBottom:'10px'}} className="people-list-container">
+                <div style={{ marginBottom: '10px' }} className="people-list-container">
                     {peopleList.map((person, index) => (
                         <div key={index} className="person-item">
-                            <p>Name: <span> {person.user.firstName} {person.user.lastName} </span></p>
-                            <p>Email: <span> {person.user.email} </span></p>
-                            <p>Payment Status: <span> {person.order.paymentStatus} </span></p>
-                            <p>Payment Id: <span> {person.order.paymentIntentId} </span></p>
-                            <p>Payment: <span> {person.order.totalAmount} </span></p>
+                            <p>Name: <span style={{fontStyle:'normal'}} className="modal-span">{person.user.firstName} {person.user.lastName}</span></p>
+                            <p>Email: <span style={{fontStyle:'normal'}} className="modal-span">{person.user.email}</span></p>
+                            <p>Payment Status: <span style={{fontStyle:'normal'}}className="modal-span">{person.order.paymentStatus}</span></p>
+                            <p>Payment Id: <span style={{fontStyle:'normal'}} className="modal-span">{person.order.paymentIntentId}</span></p>
+                            <p>Payment: <span style={{fontStyle:'normal'}}className="modal-span">{person.order.totalAmount}</span></p>
                         </div>
                     ))}
                 </div>

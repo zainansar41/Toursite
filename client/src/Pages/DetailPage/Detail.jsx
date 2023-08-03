@@ -1,30 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
 import { useParams } from 'react-router-dom';
-import { fetchTour } from '../../Hooks/customHook';
+import { fetchTour, addReview } from '../../Hooks/customHook';
 import toast, { Toaster } from 'react-hot-toast';
 import Modal from 'react-modal';
 import './modal.css'
 import { PulseLoader } from 'react-spinners';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
-
+import { useNavigate } from 'react-router-dom';
 export default function Detail() {
+    const navigate = useNavigate();
     const { id } = useParams();
     const [tour, setTour] = useState({});
     const [loading, setLoading] = useState(true);
     const [uId, setUId] = useState('');
     const [rolee, setRolee] = useState('');
+    const [name, setName] = useState('');
 
     const [showModal, setShowModal] = useState(false);
     const [contactNumber, setContactNumber] = useState('');
+
+    const [showReviewModal, setShowReviewModal] = useState(false);
+    const [reviewText, setReviewText] = useState('');
 
 
 
     useEffect(() => {
         fetchTour(id)
             .then((result) => {
-                console.log(result);
                 setTour(result);
                 setLoading(false); // Mark the data as loaded
             })
@@ -36,9 +40,10 @@ export default function Detail() {
         const token = localStorage.getItem('token');
         if (token) {
             const decodedToken = jwt_decode(token);
-            const { userID, role } = decodedToken;
+            const { userID, role, name } = decodedToken;
             setUId(userID);
             setRolee(role)
+            setName(name)
         }
     }, [id]);
 
@@ -54,7 +59,13 @@ export default function Detail() {
     };
 
     const openModal = () => {
-        setShowModal(true);
+        if(uId ===''){
+            toast.error('Please Login');
+            navigate('/login')
+            
+        }else{
+            setShowModal(true);
+        }
     };
 
     const closeModal = () => {
@@ -88,61 +99,149 @@ export default function Detail() {
         }
     }
 
+    const handleAddReview = () => {
+        setShowReviewModal(true);
+    };
+
+    const handleSubmitReview = async (event) => {
+        event.preventDefault();
+
+        const data = {
+            reviewText: reviewText,
+            userName: name,
+        };
+
+        const { msg, status, review } = await addReview(data, tour._id);
+        if (status === 200) {
+            toast.success(msg);
+            // Add the new review to the existing reviews and update the tour state
+            setTour((prevTour) => ({
+                ...prevTour,
+                reviews: [...prevTour.reviews, review],
+            }));
+        } else {
+            toast.error(msg);
+        }
+
+        setShowReviewModal(false);
+    };
+
     return (
         <>
-            {loading ? <div className="loading-spinner"><PulseLoader size={50} color="#fa585b" /></div> :
-                <div className="detail">
-                    <Toaster
-                        position="top-right"
-                        reverseOrder={false}
-                    />
-                    <img src={`http://localhost:5000/images/${tour.image}`} alt="" />
-                    <div className="detail-info">
-                        <h1 className="Tourtitle"> {tour.tourName}</h1>
-                        <h4 className="TourLocation">where to go: {tour.location}</h4>
-                        <h4 className="from">from where : {tour.from}</h4>
-                        <h4 style={{ color: 'royalblue' }} className="price">Price: {tour.price}</h4>
-                        <h4 className="TourStart">{formatStartDate(tour.startDate)}</h4>
-                        {/* Use the formatStartDate function to display the formatted date */}
-                        <h4 className="TourEnd">{formatStartDate(tour.endDate)}</h4>
-                        {/* Use the formatStartDate function to display the formatted date */}
-                        <h4 style={{ color: 'blue' }} className="TourHosted">Hosted by: {tour.hostedBy}</h4>
-                        <p className="TourDesc">{tour.description}</p>
+            {loading ? <div className="loading-spinner-container">
+                <PulseLoader size={50} color="#fa585b" />
+            </div> :
+                <>
+                    <div className="detail">
+                        <Toaster
+                            position="top-right"
+                            reverseOrder={false}
+                        />
+                        <img src={`http://localhost:5000/images/${tour.image}`} alt="" />
+                        <div className="detail-info">
+                            <h1 className="Tourtitle"> {tour.tourName}</h1>
+                            <h4 className="TourLocation">where to go: {tour.location}</h4>
+                            <h4 className="from">from where : {tour.from}</h4>
+                            <h4 style={{ color: 'royalblue' }} className="price">Price: {tour.price}</h4>
+                            <h4 className="TourStart">{formatStartDate(tour.startDate)}</h4>
+                            {/* Use the formatStartDate function to display the formatted date */}
+                            <h4 className="TourEnd">{formatStartDate(tour.endDate)}</h4>
+                            {/* Use the formatStartDate function to display the formatted date */}
+                            <h4 style={{ color: 'blue' }} className="TourHosted">Hosted by: {tour.hostedBy}</h4>
+                            <p className="TourDesc">{tour.description}</p>
 
-                        <div className="detail-btns">
-                            <button className="btn" onClick={() => { openModal() }}>Book Now</button>
+                            <div className="detail-btns">
+                                {/* Render "Add Review" button if conditions are met */}
+                                {tour.status === 'completed' && tour.people.includes(uId) ? (
+                                    <button className="btn" onClick={handleAddReview}>
+                                        Add Review
+                                    </button>
+                                ) : tour.status !== 'completed' ? (
+                                    <button className="btn" onClick={() => openModal()}>
+                                        Book Now
+                                    </button>
+                                ) : null}
+                            </div>
                         </div>
+                        <Modal
+                            isOpen={showModal}
+                            onRequestClose={closeModal}
+                            className="modal-container"
+                            overlayClassName="modal-overlay"
+                            contentLabel="Modal"
+                        >
+                            <h2 className="modal-title" style={{ textAlign: "center" }}>Enter the Number to proceed</h2>
+                            <form className="modal-form" onSubmit={closeModal}>
+                                <div>
+                                    <label>Contact Number:</label>
+                                    <input
+                                        type="tel"
+                                        className="modal-input"
+                                        value={contactNumber}
+                                        onChange={(e) => setContactNumber(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="modal-buttons">
+                                    <button onClick={() => handleMoveToCheckOut(tour._id)} type="submit" className="modal-button modal-submit">
+                                        Pay Now
+                                    </button>
+                                    <button onClick={closeModal} className="modal-button modal-close">
+                                        Close
+                                    </button>
+                                </div>
+                            </form>
+                        </Modal>
+                        <Modal
+                            isOpen={showReviewModal}
+                            onRequestClose={() => setShowReviewModal(false)}
+                            className="modal-container"
+                            overlayClassName="modal-overlay"
+                            contentLabel="Review Modal"
+                        >
+                            <h2 className="modal-title" style={{ textAlign: "center" }}>
+                                Write your review
+                            </h2>
+                            <form className="modal-form" onSubmit={handleSubmitReview}>
+                                <div>
+                                    <label>Review:</label>
+                                    <textarea
+                                        className="modal-input"
+                                        value={reviewText}
+                                        onChange={(e) => setReviewText(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                                <div className="modal-buttons">
+                                    <button type="submit" className="modal-button modal-submit">
+                                        Submit Review
+                                    </button>
+                                    <button onClick={() => setShowReviewModal(false)} className="modal-button modal-close">
+                                        Close
+                                    </button>
+                                </div>
+                            </form>
+                        </Modal>
                     </div>
-                    <Modal
-                        isOpen={showModal}
-                        onRequestClose={closeModal}
-                        className="modal-container"
-                        overlayClassName="modal-overlay"
-                        contentLabel="Modal"
-                    >
-                        <h2 className="modal-title" style={{ textAlign: "center" }}>Enter the Number to proceed</h2>
-                        <form className="modal-form" onSubmit={closeModal}>
-                            <div>
-                                <label>Contact Number:</label>
-                                <input
-                                    type="tel"
-                                    className="modal-input"
-                                    value={contactNumber}
-                                    onChange={(e) => setContactNumber(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="modal-buttons">
-                                <button onClick={() => handleMoveToCheckOut(tour._id)} type="submit" className="modal-button modal-submit">
-                                    Pay Now
-                                </button>
-                                <button onClick={closeModal} className="modal-button modal-close">
-                                    Close
-                                </button>
-                            </div>
-                        </form>
-                    </Modal>
-                </div>
+                    {tour.status === 'completed' && (
+                        <div className="reviews-section">
+                            {tour.reviews.length > 0 ? (
+                                <>
+                                    <h1>Reviews</h1>
+                                    <ul>
+                                        {tour.reviews.map((review, index) => (
+                                            <li key={index}>
+                                                <strong>{review.userName}:</strong> {review.review}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </>
+                            ) : (
+                                <h1>No reviews yet.</h1>
+                            )}
+                        </div>
+                    )}
+                </>
             }
         </>
     );

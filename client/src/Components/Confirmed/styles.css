@@ -1,4 +1,4 @@
-.ConfirmTour_div{
+.ConfirmTour_div {
     /* make it using flex wrap */
     display: flex;
     justify-content: center;
@@ -13,13 +13,15 @@
     gap: 30px;
 
 }
-.ConfirmTour_title{
+
+.ConfirmTour_title {
     font-size: 30px;
     font-weight: 600;
     color: #333;
     text-align: center;
 }
-.ConfirmTour_container{
+
+.ConfirmTour_container {
     /* make it using grid so only 2 cars show on a row */
     display: flex;
     justify-content: center;
@@ -32,13 +34,14 @@
     padding: 20px;
     box-sizing: border-box;
 
-    
+
 }
-.ConfirmTour_card{
+
+.ConfirmTour_card {
     width: 40%;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 20px;
     box-sizing: border-box;
     gap: 30px;
@@ -48,35 +51,37 @@
     align-items: center;
 }
 
-.ConfirmTour_card_img{
+.ConfirmTour_card_img {
     width: 100%;
     height: 200px;
     object-fit: cover;
     border-radius: 10px;
     margin-bottom: 20px;
 }
-.ConfirmTour_card_img img{
+
+.ConfirmTour_card_img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 10px;
 }
 
-.ConfirmTour_card_info{
+.ConfirmTour_card_info {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 10px;
 }
 
-.ConfirmTour_card_btns{
+.ConfirmTour_card_btns {
     display: flex;
     justify-content: space-evenly;
     gap: 10px;
     width: 100%;
     margin-top: 20px;
 }
-.ConfirmTour_card_btns_view_detail{
+
+.ConfirmTour_card_btns_view_detail {
     width: 50%;
     background-color: royalblue;
     color: #fff;
@@ -86,45 +91,54 @@
     box-sizing: border-box;
     cursor: pointer;
 }
-.ConfirmTour_card_btns_view_detail:hover{
+
+.ConfirmTour_card_btns_view_detail:hover {
     background-color: rgb(76, 119, 247);
 }
-.person-item{
+
+.person-item {
     display: flex;
     justify-content: space-between;
     width: 900px;
     background-color: aqua;
     padding: 10px;
 }
-.modal-container{
+
+.modal-container {
     max-width: 1000px;
 }
-.person-item p span{
-    font-size: 15px;
-    font-weight: 400;
-    text-decoration: none;
-    color: grey;
-}
-.person-item p{
+
+.person-item p {
     font-size: 15px;
     font-weight: 600;
     color: #333;
 }
 
+.person-item p .modal-span {
+    font-size: 15px;
+    font-weight: 400;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    rotate: 0deg;
+}
+
 @media (max-width: 768px) {
-    .ConfirmTour_card{
+    .ConfirmTour_card {
         width: 70%;
         gap: 10px;
     }
 }
+
 @media (max-width: 600px) {
-    .ConfirmTour_card{
+    .ConfirmTour_card {
         width: 90%;
     }
 }
+
 @media (max-width: 420px) {
-    .ConfirmTour_card{
+    .ConfirmTour_card {
         width: 100%;
     }
 }
-  

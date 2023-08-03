@@ -7,6 +7,13 @@
     height: 100%;
 }
 
+.loading-spinner-container {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .detail img {
     width: 400px;
     height: 400px;
@@ -76,6 +83,42 @@
     transform: scaleX(1.4) scaleY(1.6);
     opacity: 0;
 }
+
+/* styles.css */
+
+/* Other existing styles... */
+
+.reviews-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    margin-bottom: 100px;
+}
+
+.reviews-section h1 {
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.reviews-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.reviews-section li {
+    margin-bottom: 10px;
+}
+
+.reviews-section li strong {
+    color: #007bff;
+}
+
+.reviews-section p {
+    font-style: italic;
+    color: #777;
+}
+
 
 @media (max-width: 790px) {
     .detail .detail-info {

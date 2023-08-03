@@ -19,7 +19,8 @@ export default function Navbar({ name, role }) {
             <ul>
                 <li><Link to="/" className="active a">Home</Link></li>
                 {role !== 'admin' ? <li><Link className='a' to="/trips">Trips</Link></li> : null}
-                {role !== 'admin' ? <li><Link className='a' to="/contact">Contact</Link></li> : null}
+                {role !== 'admin' ? <li><Link className='a' to="/hotels">Hotels</Link></li> : null}
+                {role === 'visitor' ? <li><Link className='a' to="/contact">Contact</Link></li> : null}
                 {role === 'HM' || role === 'admin' ? <li><Link className='a' to="/upload">Upload</Link></li> : null}
                 {role === 'admin' ? <li><Link className='a' to="/admin/main">Admin Screen</Link></li> : null}
                 {role === 'admin' ? <li><Link className='a' to="/admin/message">See Msg</Link></li> : null}
