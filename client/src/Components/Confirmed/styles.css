@@ -89,7 +89,27 @@
 .ConfirmTour_card_btns_view_detail:hover{
     background-color: rgb(76, 119, 247);
 }
-
+.person-item{
+    display: flex;
+    justify-content: space-between;
+    width: 900px;
+    background-color: aqua;
+    padding: 10px;
+}
+.modal-container{
+    max-width: 1000px;
+}
+.person-item p span{
+    font-size: 15px;
+    font-weight: 400;
+    text-decoration: none;
+    color: grey;
+}
+.person-item p{
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+}
 
 @media (max-width: 768px) {
     .ConfirmTour_card{

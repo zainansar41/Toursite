@@ -1,6 +1,7 @@
 import userModel from "../models/userModel.js"
 import Tour from "../models/TourModel.js"
 import Contact from "../models/Contact.js"
+import Order from "../models/Order.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -35,7 +36,7 @@ export async function signup(req, res) {
                         const token = jwt.sign({
                             userID: user._id,
                             role: user.role,
-                            name:user.firstName
+                            name: user.firstName
                         }, '@42/ahc', { expiresIn: "24h" })
                         res.status(201).send({ msg: "You has been register successfully", token })
 
@@ -71,7 +72,7 @@ export async function login(req, res) {
                             const token = jwt.sign({
                                 userID: user._id,
                                 role: user.role,
-                                name:user.firstName
+                                name: user.firstName
                             }, '@42/ahc', { expiresIn: "24h" })
                             res.status(200).send({ msg: "You has been register successfully", token })
 
@@ -207,7 +208,7 @@ export async function rejectTour(req, res) {
     try {
         const { userID } = req.user;
         const { id } = req.body;
-        
+
         Tour.deleteOne({ _id: id }).then(result => {
             return res.status(201).send({ msg: "tour rejected successfully" });
         }).catch(error => {
@@ -220,7 +221,7 @@ export async function rejectTour(req, res) {
 }
 
 
-export async function BookNow(req, res){
+export async function BookNow(req, res) {
     try {
         const { userID } = req.user;
         const { id } = req.body;
@@ -228,13 +229,13 @@ export async function BookNow(req, res){
         // Use the updateOne query with $push operator to add the userID to the people array
         // const result = await Tour.updateOne({ _id: id }, { $push: { people: userID } });
 
-        Tour.updateOne({_id: id}, {$push: {people: userID}}).then(result => {
+        Tour.updateOne({ _id: id }, { $push: { people: userID } }).then(result => {
             res.status(201).send({ msg: "tour booked successfully" });
         }).catch(error => {
             res.status(203).send({ msg: "Tour not found or no changes made" });
         })
-        
-        
+
+
     } catch (error) {
         return res.status(500).send({ error });
     }
@@ -257,47 +258,47 @@ export async function fetchPeopleRoute(req, res) {
     }
 }
 
-export async function fetchAllMessage(req, res){
+export async function fetchAllMessage(req, res) {
     try {
         const messages = await Contact.find()
         return res.status(200).send({ messages })
-        
+
     } catch (error) {
         return res.status(500).send({ error });
     }
 }
 
-export async function seenMsg(req, res){
+export async function seenMsg(req, res) {
     try {
 
-        const {id} = req.body
+        const { id } = req.body
         // delete the message
 
-        Contact.deleteOne({_id: id}).then(result => {
+        Contact.deleteOne({ _id: id }).then(result => {
             return res.status(201).send({ msg: "message deleted successfully" });
         }).catch(error => {
             return res.status(203).send({ msg: "message not found or no changes made" });
         })
-        
+
     } catch (error) {
         return res.status(500).send({ error });
 
     }
 }
 
-export async function fetchAllUser(req, res){
+export async function fetchAllUser(req, res) {
     try {
         const users = await userModel.find()
         return res.status(200).send({ users })
-        
+
     } catch (error) {
         return res.status(500).send({ error });
     }
 }
 
-export async function changeRole(req, res){
+export async function changeRole(req, res) {
     try {
-        const {id, role} = req.body
+        const { id, role } = req.body
         const result = await userModel.updateOne({ _id: id }, { $set: { role: role } });
 
         if (result.nModified > 0) {
@@ -307,6 +308,21 @@ export async function changeRole(req, res){
             return res.status(203).send({ msg: "role not found or no changes made" });
         }
 
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}
+export async function getPeopleOfTour(req, res) {
+    try {
+        const { id } = req.params
+        const orders = await Order.find({ purchasedItem: id })
+        let people = []
+        for (const order of orders) {
+            const user = await userModel.findOne({ _id: order.userId });
+            people.push({ user, order });
+        }
+        console.log(people)
+        return res.status(200).send({ people });
     } catch (error) {
         return res.status(500).send({ error });
     }

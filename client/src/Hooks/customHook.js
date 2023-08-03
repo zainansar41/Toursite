@@ -116,6 +116,17 @@ export async function fetchAllPeople(id){
         return error
     }
 }
+export async function fetchAllPeopleOfTour(id){
+    try {
+        const token = localStorage.getItem('token')
+        const { data: { people } } = await axios.get( `/api/get-people/${id}`, { headers: { "authorization": `Bearer ${token}` } })
+
+        return {people}
+
+    } catch (error) {
+        return error
+    }
+}
 
 export async function fetchMessage(){
     try {

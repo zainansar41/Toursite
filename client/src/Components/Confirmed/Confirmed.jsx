@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import './styles.css';
-import { fetchAllPeople } from '../../Hooks/customHook';
+import { fetchAllPeopleOfTour } from '../../Hooks/customHook';
 
 export default function Confirmed({ tours }) {
     // ... (unchanged code)
@@ -10,7 +10,7 @@ export default function Confirmed({ tours }) {
     const [peopleList, setPeopleList] = useState([]);
 
     const openModal = async (id) => {
-        const { people, status } = await fetchAllPeople(id);
+        const { people } = await fetchAllPeopleOfTour(id);
         setPeopleList(people);
         setShowModal(true);
     };
@@ -32,10 +32,10 @@ export default function Confirmed({ tours }) {
             <h1 className="ConfirmTour_title">Confirmed</h1>
             <div className="ConfirmTour_container">
                 {tours
-                    .map((item, index) => (
+                    ?.map((item, index) => (
                         <div className="ConfirmTour_card" key={index}>
                             <div className="ConfirmTour_card_img">
-                                <img src={item.image} alt="" />
+                                <img src={`http://localhost:5000/images/${item.image}`} alt="" />
                             </div>
                             <div className="ConfirmTour_card_info">
                                 <h2>{item.name}</h2>
@@ -69,11 +69,15 @@ export default function Confirmed({ tours }) {
                 overlayClassName="modal-overlay"
                 contentLabel="Modal"
             >
-                <h2 className="modal-title">List of People</h2>
+                <h2 className="modal-title">List of People who paid </h2>
                 <div style={{marginBottom:'10px'}} className="people-list-container">
                     {peopleList.map((person, index) => (
                         <div key={index} className="person-item">
-                            <p>Email: {person.email}</p>
+                            <p>Name: <span> {person.user.firstName} {person.user.lastName} </span></p>
+                            <p>Email: <span> {person.user.email} </span></p>
+                            <p>Payment Status: <span> {person.order.paymentStatus} </span></p>
+                            <p>Payment Id: <span> {person.order.paymentIntentId} </span></p>
+                            <p>Payment: <span> {person.order.totalAmount} </span></p>
                         </div>
                     ))}
                 </div>
