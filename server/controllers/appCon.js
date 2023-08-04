@@ -344,6 +344,7 @@ export async function addReview(req, res) {
 
 export async function addHotel(req, res){
     try {
+        const {userID} = req.user
         const {name, description, price, image, location, contactNumber} = req.body
 
         const hotel = new Hotel({
@@ -352,7 +353,8 @@ export async function addHotel(req, res){
             perDayPrice:price,
             contactNo: contactNumber,
             location,
-            image
+            image,
+            userID
         })
 
         hotel.save().then(result => {
@@ -380,6 +382,18 @@ export async function fetchHotel(req, res){
         const {id} = req.params
         const hotel = await Hotel.findOne({_id: id})
         return res.status(200).send({ hotel })
+    } catch (error) {
+        return res.status(500).send({ error });
+    }
+}
+
+export async function updatePrice(req, res){
+    try {
+        const {id} = req.params
+        const {price} = req.body
+        const hotel = await Hotel.updateOne({_id: id}, {$set: {perDayPrice: price}})
+        return res.status(200).send({ msg: "price updated successfully" })
+        
     } catch (error) {
         return res.status(500).send({ error });
     }

@@ -26,6 +26,10 @@ const hotelSchema = new Schema({
         type: Number,
         required: true,
     },
+    userID :{
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+    }
 });
 
 const Hotel = mongoose.model("hotel", hotelSchema);

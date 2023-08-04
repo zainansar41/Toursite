@@ -211,3 +211,13 @@ export async function fetchHotel(id) {
         return error
     }
 }
+
+export async function updatePrice(id, price){
+    try {
+        const token = localStorage.getItem('token')
+        const {data:{msg}} = await axios.post(`/api/updatePrice/${id}`,{price},{headers:{"authorization":`Bearer ${token}`}})
+        return msg
+    } catch (error) {
+        return error
+    }
+}

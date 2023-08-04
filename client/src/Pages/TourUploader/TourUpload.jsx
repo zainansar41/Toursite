@@ -28,6 +28,7 @@ export default function TourUpload() {
         image: '',
         location: '',
         contactNumber: '',
+        userID: ''
     });
 
     const handleChange = (event) => {
@@ -90,7 +91,7 @@ export default function TourUpload() {
             if (status === 201) {
                 toast.success(msg);
             }
-            else{
+            else {
                 toast.error(msg);
             }
 

@@ -21,8 +21,10 @@ router.route('/fetchUsers').get(auth, controller.fetchAllUser)
 router.route('/updateRole').post(auth, controller.changeRole)
 router.route('/get-people/:id').get(auth, controller.getPeopleOfTour) 
 router.route('/addReview/:id').post(auth, controller.addReview)
-router.route('/addHotel').post( controller.addHotel)
+router.route('/addHotel').post(auth, controller.addHotel)
 router.route('/fetchAllHotel').get(controller.fetchAllHotel)
 router.route('/fetchHotel/:id').get(controller.fetchHotel)
+router.route('/updatePrice/:id').post(auth, controller.updatePrice)
+
 
 export default router

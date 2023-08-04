@@ -69,7 +69,6 @@ export default function Detail() {
     };
 
     const closeModal = () => {
-        // handleBookNow(tour._id)
         setShowModal(false);
     };
 
