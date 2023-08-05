@@ -107,10 +107,10 @@ export default function Detail() {
 
         const data = {
             reviewText: reviewText,
-            userName: "Ali Raza",
+            userName: name,
         };
-        console.log(data)
-        const { msg, status } = await addReview(data, tour._id);
+
+        const { msg, status, review } = await addReview(data, tour._id);
         if (status === 200) {
             toast.success(msg);
             // Add the new review to the existing reviews and update the tour state
@@ -151,7 +151,7 @@ export default function Detail() {
 
                             <div className="detail-btns">
                                 {/* Render "Add Review" button if conditions are met */}
-                                {tour.status === 'completed' && !tour.people.includes(uId) ? (
+                                {tour.status === 'completed' && tour.people.includes(uId) ? (
                                     <button className="btn" onClick={handleAddReview}>
                                         Add Review
                                     </button>
