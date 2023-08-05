@@ -175,6 +175,7 @@ export async function addReview(data, id) {
     try {
         const token = localStorage.getItem('token')
         const { data: { msg }, status } = await axios.post(`/api/addReview/${id}`, data, { headers: { "authorization": `Bearer ${token}` } })
+        console.log(msg);
         return { msg, status }
     } catch (error) {
         return error

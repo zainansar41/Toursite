@@ -52,11 +52,9 @@ const tourSchema = new Schema({
     reviews: [{
         userName: {
             type: String,
-            required: true,
         },
         review: {
             type: String,
-            required: true,
         },
     }]
 });

@@ -332,25 +332,26 @@ export async function getPeopleOfTour(req, res) {
 
 export async function addReview(req, res) {
     try {
-        const {id} = req.params
-        const {userName, reviewText} = req.body
-        const tour = Tour.findOneAndUpdate({_id: id}, {$push: {reviews: {userName, reviewText}}})
-        return res.status(200).send({msg: "review added successfully"})
-
+        const { id } = req.params
+        const { userName, reviewText } = req.body
+        const tour = await Tour.findOne({ _id: id })
+        tour.reviews.push({ userName, review: reviewText })
+        await tour.save()
+        return res.status(200).send({ msg: "review added successfully" })
     } catch (error) {
         return res.status(500).send({ error });
     }
 }
 
-export async function addHotel(req, res){
+export async function addHotel(req, res) {
     try {
-        const {userID} = req.user
-        const {name, description, price, image, location, contactNumber} = req.body
+        const { userID } = req.user
+        const { name, description, price, image, location, contactNumber } = req.body
 
         const hotel = new Hotel({
             hotelName: name,
             description,
-            perDayPrice:price,
+            perDayPrice: price,
             contactNo: contactNumber,
             location,
             image,
@@ -362,13 +363,13 @@ export async function addHotel(req, res){
         }).catch(error => {
             return res.status(203).send({ msg: "hotel not added" })
         })
-        
+
     } catch (error) {
         return res.status(500).send({ error });
     }
 }
 
-export async function fetchAllHotel(req, res){
+export async function fetchAllHotel(req, res) {
     try {
         const hotels = await Hotel.find()
         return res.status(200).send({ hotels })
@@ -377,23 +378,23 @@ export async function fetchAllHotel(req, res){
     }
 }
 
-export async function fetchHotel(req, res){
+export async function fetchHotel(req, res) {
     try {
-        const {id} = req.params
-        const hotel = await Hotel.findOne({_id: id})
+        const { id } = req.params
+        const hotel = await Hotel.findOne({ _id: id })
         return res.status(200).send({ hotel })
     } catch (error) {
         return res.status(500).send({ error });
     }
 }
 
-export async function updatePrice(req, res){
+export async function updatePrice(req, res) {
     try {
-        const {id} = req.params
-        const {price} = req.body
-        const hotel = await Hotel.updateOne({_id: id}, {$set: {perDayPrice: price}})
+        const { id } = req.params
+        const { price } = req.body
+        const hotel = await Hotel.updateOne({ _id: id }, { $set: { perDayPrice: price } })
         return res.status(200).send({ msg: "price updated successfully" })
-        
+
     } catch (error) {
         return res.status(500).send({ error });
     }
