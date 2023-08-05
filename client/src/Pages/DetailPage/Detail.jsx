@@ -110,13 +110,13 @@ export default function Detail() {
             userName: name,
         };
 
-        const { msg, status, review } = await addReview(data, tour._id);
+        const { msg, status } = await addReview(data, tour._id);
         if (status === 200) {
             toast.success(msg);
             // Add the new review to the existing reviews and update the tour state
             setTour((prevTour) => ({
                 ...prevTour,
-                reviews: [...prevTour.reviews, review],
+                reviews: [...prevTour.reviews, reviewText],
             }));
         } else {
             toast.error(msg);
