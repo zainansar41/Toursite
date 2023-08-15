@@ -72,7 +72,7 @@ export default function TourUpload() {
                 console.log('err>>>', err);
             }
         }
-    };
+    }; 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
