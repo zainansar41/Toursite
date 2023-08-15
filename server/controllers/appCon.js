@@ -399,3 +399,39 @@ export async function updatePrice(req, res) {
         return res.status(500).send({ error });
     }
 }
+
+export async function fetchPeopleOfHotel(req, res) {
+    try{
+
+        const {id} = req.params
+        console.log(id);
+        const orders = await Order.find({purchasedItem: id})
+        let people = []
+        for(const order of orders){
+            const user = await userModel.findOne({_id: order.userId});
+            people.push({user, order});
+        }
+        console.log(people)
+        return res.status(200).send({people});
+    }
+    catch{
+
+    }
+}
+
+export async function addpeopleInHotel(req, res) {
+    try{
+        const {id} = req.params
+        const {userID} = req.body
+
+        const hotel = Hotel.findById({_id: id})
+        console.log(hotel.hotelName);
+        hotel.people.push(userID)
+        await hotel.save()
+        return res.status(200).send({msg: "people added successfully"})
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).send(error)
+    }
+}

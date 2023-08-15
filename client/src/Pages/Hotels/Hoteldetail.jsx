@@ -8,17 +8,21 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+import { fetchPeopleOfHotel } from '../../Hooks/customHook';
+
 export default function Hoteldetail() {
     const navigate = useNavigate();
     const { id } = useParams();
     const [hotel, setHotel] = useState({});
     const [loading, setLoading] = useState(true);
-    const [showEditModal, setShowEditModal] = useState(false); // Separate state for Edit Price modal
-    const [showBookModal, setShowBookModal] = useState(false); // Separate state for Book Now modal
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showBookModal, setShowBookModal] = useState(false);
     const [newPrice, setNewPrice] = useState('');
     const [uId, setUId] = useState('');
     const [role, setRole] = useState('');
     const [contactNumber, setContactNumber] = useState('');
+    const [showViewPeopleModal, setShowViewPeopleModal] = useState(false);
+    const [peopleList, setPeopleList] = useState([]);
 
     useEffect(() => {
         fetchHotel(id)
@@ -57,6 +61,7 @@ export default function Hoteldetail() {
     const closeModals = () => {
         setShowEditModal(false);
         setShowBookModal(false);
+        setShowViewPeopleModal(false);
     };
 
     const handleSubmitPrice = async (event) => {
@@ -96,7 +101,27 @@ export default function Hoteldetail() {
                 })
                 .catch((err) => console.log("error>>>:", err));
         }
+    };
 
+    const openViewPeopleModal = async () => {
+        try {
+            setShowViewPeopleModal(true);
+            const { people } = await fetchPeopleOfHotel(hotel._id);
+            console.log(people);
+
+            if (Array.isArray(people)) {
+                setPeopleList(people);
+            } else {
+                setPeopleList([]);
+                console.log(uId);
+            }
+        } catch (error) {
+            console.error('Error fetching people list:', error);
+        }
+    };
+
+    const closeViewPeopleModal = () => {
+        setShowViewPeopleModal(false);
     };
 
     return (
@@ -120,13 +145,22 @@ export default function Hoteldetail() {
                             <h3 style={{ fontSize: '20px' }}>Contact No: {hotel.contactNo}</h3>
                             <p>{hotel.description}</p>
                             {uId === hotel.userID ? (
-                                <button className="btn" onClick={openEditModal}>
-                                    Edit Price
-                                </button>
+                                <div style={{ gap: '12px' }}>
+                                    <button className="btn" onClick={openEditModal}>
+                                        Edit Price
+                                    </button>
+                                    <button className="btn" onClick={openViewPeopleModal}>
+                                        View People
+                                    </button>
+                                </div>
                             ) : (
-                                <button className="btn" onClick={openBookModal}>
-                                    Book Now
-                                </button>
+                                <>
+                                    <button className="btn" onClick={openBookModal}>
+                                        Book Now
+                                    </button>
+                                    <button className="btn" onClick={openViewPeopleModal}>
+                                        View People
+                                    </button></>
                             )}
                         </div>
                     </div>
@@ -139,6 +173,7 @@ export default function Hoteldetail() {
                 overlayClassName="modal-overlay"
                 contentLabel="Edit Price Modal"
             >
+                {/* ... Modal content ... */}
                 <h2 className="modal-title" style={{ textAlign: 'center' }}>
                     Edit Price
                 </h2>
@@ -162,6 +197,7 @@ export default function Hoteldetail() {
                         </button>
                     </div>
                 </form>
+
             </Modal>
             <Modal
                 isOpen={showBookModal}
@@ -170,6 +206,7 @@ export default function Hoteldetail() {
                 overlayClassName="modal-overlay"
                 contentLabel="Book Now Modal"
             >
+                {/* ... Modal content ... */}
                 <h2 className="modal-title" style={{ textAlign: "center" }}>Enter the Number to proceed</h2>
                 <p style={{ color: 'red', textAlign: 'center' }}>Number must start with <strong>+92</strong></p>
                 <form className="modal-form" onSubmit={handleMoveToCheckOut}>
@@ -192,6 +229,35 @@ export default function Hoteldetail() {
                         </button>
                     </div>
                 </form>
+            </Modal>
+            <Modal
+                isOpen={showViewPeopleModal}
+                onRequestClose={closeModals}
+                className="modal-container"
+                overlayClassName="modal-overlay"
+                contentLabel="View People Modal"
+            >
+                <h2 className="modal-title" style={{ textAlign: 'center' }}>
+                    People in Hotel
+                </h2>
+                {peopleList.length === 0 ? (
+                    <p>No People found</p>
+                ) : (
+                    <ul>
+                        {peopleList.map((person, index) => (
+                            <div key={index} className="person-item">
+                                <p>Name: <span style={{ fontStyle: 'normal' }} className="modal-span">{person.user.firstName} {person.user.lastName}</span></p>
+                                <p>Email: <span style={{ fontStyle: 'normal' }} className="modal-span">{person.user.email}</span></p>
+                                <p>Payment Status: <span style={{ fontStyle: 'normal' }} className="modal-span">{person.order.paymentStatus}</span></p>
+                                <p>Payment Id: <span style={{ fontStyle: 'normal' }} className="modal-span">{person.order.paymentIntentId}</span></p>
+                                <p>Payment: <span style={{ fontStyle: 'normal' }} className="modal-span">{person.order.totalAmount}</span></p>
+                            </div>
+                        ))}
+                    </ul>
+                )}
+                <button onClick={closeViewPeopleModal} className="modal-button modal-close">
+                    Close
+                </button>
             </Modal>
         </div>
     );

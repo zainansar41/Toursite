@@ -222,3 +222,15 @@ export async function updatePrice(id, price){
         return error
     }
 }
+
+
+export async function fetchPeopleOfHotel(id){
+    try {
+
+        const {data:{people}} = await axios.get(`/api/fetchPeopleOfHotel/${id}`)
+        return {people}
+        
+    } catch (error) {
+        return error
+    }
+}
