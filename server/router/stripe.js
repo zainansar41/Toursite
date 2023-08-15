@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import Order from "../models/Order.js"
 import Tour from "../models/TourModel.js"
 import dotenv from "dotenv";
+import Hotel from "../models/HotelModel.js";
 
 
 
@@ -24,8 +25,14 @@ const createOrder = async (obj) => {
   });
 
   const tour = await Tour.findById(obj.purchasedItem);
-  tour.people.push(obj.userId);
-  await tour.save();
+  if (tour) {
+    tour.people.push(obj.userId);
+    await tour.save();
+  } else {
+    const hotel = await Hotel.findById(obj.purchasedItem);
+    hotel.people.push(obj.userId);
+    await hotel.save();
+  }
   try {
     await newOrder.save();
   } catch (err) {

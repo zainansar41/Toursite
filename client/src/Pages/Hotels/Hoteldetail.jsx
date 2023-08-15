@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import jwt_decode from 'jwt-decode';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function Hoteldetail() {
     const navigate = useNavigate();
@@ -71,13 +72,31 @@ export default function Hoteldetail() {
         setShowEditModal(false);
     };
 
-    const handleMoveToCheckOut = async () => {
+    const handleMoveToCheckOut = async (e) => {
+        e.preventDefault();
+        const data = {
+            tourName: hotel.hotelName,
+            price: hotel.perDayPrice,
+            contactNumber: contactNumber,
+            tourId: hotel._id,
+        };
         if (!contactNumber.startsWith('+92') || contactNumber.length !== 13) {
             toast.error('Invalid number');
-            return;
+        } else {
+            await axios
+                .post(`http://localhost:5000/api/stripe/create-checkout-session`, {
+                    data: data,
+                    userId: uId,
+                })
+                .then((response) => {
+                    if (response.data.url) {
+                        window.location.href = response.data.url;
+                    }
+                    console.log("Response", response.data.url)
+                })
+                .catch((err) => console.log("error>>>:", err));
         }
 
-        // The rest of your code for handling the checkout process
     };
 
     return (
@@ -95,7 +114,7 @@ export default function Hoteldetail() {
                         <div className="detail-info">
                             <h1 style={{ textAlign: 'center' }}>{hotel.hotelName}</h1>
                             <h3 style={{ color: '#4caf50', fontSize: '20px', fontWeight: '700' }}>
-                                Price: {hotel.perDayPrice}
+                                Price per day: {hotel.perDayPrice}
                             </h3>
                             <h3 style={{ fontSize: '20px' }}>Location: {hotel.location}</h3>
                             <h3 style={{ fontSize: '20px' }}>Contact No: {hotel.contactNo}</h3>

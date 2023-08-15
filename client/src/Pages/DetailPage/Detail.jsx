@@ -76,38 +76,38 @@ export default function Detail() {
 
         // check whether the contactNumber starts with +92 and length is 13
 
-        if (contactNumber.length !== 13 && contactNumber[0] !== '+' && contactNumber[1] !== '9' && contactNumber[2] !== '2' ) {
+        if (contactNumber.length !== 13 && contactNumber[0] !== '+' && contactNumber[1] !== '9' && contactNumber[2] !== '2') {
             toast.error('invalid number')
-            return
-        }
-
-        const data = {
-            tourName: tour.tourName,
-            price: tour.price,
-            contactNumber: contactNumber,
-            tourId: tour._id,
-        };
-
-        if (contactNumber.length !== 13) {
-            toast.error('invalid number')
-            return
-        }
-
-        if (uId && rolee === 'visitor') {
-            await axios
-                .post(`http://localhost:5000/api/stripe/create-checkout-session`, {
-                    data: data,
-                    userId: uId,
-                })
-                .then((response) => {
-                    if (response.data.url) {
-                        window.location.href = response.data.url;
-                    }
-                    console.log("Response", response.data.url)
-                })
-                .catch((err) => console.log("error>>>:", err));
         } else {
-            toast.error('Please Login as a User First');
+
+            const data = {
+                tourName: tour.tourName,
+                price: tour.price,
+                contactNumber: contactNumber,
+                tourId: tour._id,
+            };
+
+            if (contactNumber.length !== 13) {
+                toast.error('invalid number')
+                return
+            }
+
+            if (uId && rolee === 'visitor') {
+                await axios
+                    .post(`http://localhost:5000/api/stripe/create-checkout-session`, {
+                        data: data,
+                        userId: uId,
+                    })
+                    .then((response) => {
+                        if (response.data.url) {
+                            window.location.href = response.data.url;
+                        }
+                        console.log("Response", response.data.url)
+                    })
+                    .catch((err) => console.log("error>>>:", err));
+            } else {
+                toast.error('Please Login as a User First');
+            }
         }
     }
 
@@ -183,7 +183,7 @@ export default function Detail() {
                             contentLabel="Modal"
                         >
                             <h2 className="modal-title" style={{ textAlign: "center" }}>Enter the Number to proceed</h2>
-                            <p style={{color:'red', textAlign:'center'}}>Number must start with <strong>+92</strong></p>
+                            <p style={{ color: 'red', textAlign: 'center' }}>Number must start with <strong>+92</strong></p>
                             <form className="modal-form" onSubmit={closeModal}>
                                 <div>
                                     <label>Contact Number:</label>
