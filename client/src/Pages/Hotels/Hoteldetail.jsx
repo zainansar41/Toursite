@@ -2,33 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { fetchHotel, updatePrice } from '../../Hooks/customHook';
 import { useParams } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners';
-import Modal from 'react-modal'; // Import Modal component
+import Modal from 'react-modal';
 import jwt_decode from 'jwt-decode';
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-export default function Hoteldetail() { // Assuming uId is passed as a prop
+export default function Hoteldetail() {
     const navigate = useNavigate();
     const { id } = useParams();
     const [hotel, setHotel] = useState({});
     const [loading, setLoading] = useState(true);
-    const [showModal, setShowModal] = useState(false); // Add modal state
-    const [newPrice, setNewPrice] = useState(''); // Add state for new price
+    const [showEditModal, setShowEditModal] = useState(false); // Separate state for Edit Price modal
+    const [showBookModal, setShowBookModal] = useState(false); // Separate state for Book Now modal
+    const [newPrice, setNewPrice] = useState('');
     const [uId, setUId] = useState('');
     const [role, setRole] = useState('');
     const [contactNumber, setContactNumber] = useState('');
-
-
 
     useEffect(() => {
         fetchHotel(id)
             .then((res) => {
                 setHotel(res);
-                setLoading(false); // Mark the data as loaded
+                setLoading(false);
             })
             .catch((error) => {
                 console.error('Error fetching hotels:', error);
-                setLoading(false); // Mark the data as loaded even in case of an error
+                setLoading(false);
             });
 
         const token = localStorage.getItem('token');
@@ -36,29 +35,27 @@ export default function Hoteldetail() { // Assuming uId is passed as a prop
             const decodedToken = jwt_decode(token);
             const { userID, role } = decodedToken;
             setUId(userID);
-            setRole(role)
-
-
+            setRole(role);
         }
     }, [id]);
 
-    const openModal = () => {
-        if (uId === '') {
-            toast.error('Please Login');
-            navigate('/login')
-
-        } else {
-            setShowModal(true);
-        }
-    };
-
-    const handleEditPrice = () => {
-        setShowModal(true);
+    const openEditModal = () => {
+        setShowEditModal(true);
         setNewPrice(hotel.perDayPrice);
     };
 
-    const closeModal = () => {
-        setShowModal(false);
+    const openBookModal = () => {
+        if (uId === '') {
+            toast.error('Please Login');
+            navigate('/login');
+        } else {
+            setShowBookModal(true);
+        }
+    };
+
+    const closeModals = () => {
+        setShowEditModal(false);
+        setShowBookModal(false);
     };
 
     const handleSubmitPrice = async (event) => {
@@ -70,50 +67,18 @@ export default function Hoteldetail() { // Assuming uId is passed as a prop
 
         const { msg } = await updatePrice(hotel._id, newPrice);
 
-        toast.success("price updated successfully")
-
-
-        setShowModal(false);
+        toast.success('Price updated successfully');
+        setShowEditModal(false);
     };
 
     const handleMoveToCheckOut = async () => {
-
-        // check whether the contactNumber starts with +92 and length is 13
-
-        if (contactNumber.length !== 13 && contactNumber[0] !== '+' && contactNumber[1] !== '9' && contactNumber[2] !== '2') {
-            toast.error('invalid number')
-            return
+        if (!contactNumber.startsWith('+92') || contactNumber.length !== 13) {
+            toast.error('Invalid number');
+            return;
         }
 
-        // const data = {
-        //     tourName: tour.tourName,
-        //     price: tour.price,
-        //     contactNumber: contactNumber,
-        //     tourId: tour._id,
-        // };
-
-        if (contactNumber.length !== 13) {
-            toast.error('invalid number')
-            return
-        }
-
-        // if (uId && role === 'visitor') {
-        //     await axios
-        //         .post(`http://localhost:5000/api/stripe/create-checkout-session`, {
-        //             data: data,
-        //             userId: uId,
-        //         })
-        //         .then((response) => {
-        //             if (response.data.url) {
-        //                 window.location.href = response.data.url;
-        //             }
-        //             console.log("Response", response.data.url)
-        //         })
-        //         .catch((err) => console.log("error>>>:", err));
-        // } else {
-        //     toast.error('Please Login as a User First');
-        // }
-    }
+        // The rest of your code for handling the checkout process
+    };
 
     return (
         <div>
@@ -123,10 +88,7 @@ export default function Hoteldetail() { // Assuming uId is passed as a prop
                 </div>
             ) : (
                 <>
-                    <Toaster
-                        position="top-right"
-                        reverseOrder={false}
-                    />
+                    <Toaster position="top-right" reverseOrder={false} />
                     <h1>Hotel Detail</h1>
                     <div className="detail">
                         <img src={`http://localhost:5000/images/${hotel.image}`} alt="" />
@@ -139,11 +101,11 @@ export default function Hoteldetail() { // Assuming uId is passed as a prop
                             <h3 style={{ fontSize: '20px' }}>Contact No: {hotel.contactNo}</h3>
                             <p>{hotel.description}</p>
                             {uId === hotel.userID ? (
-                                <button className="btn" onClick={handleEditPrice}>
+                                <button className="btn" onClick={openEditModal}>
                                     Edit Price
                                 </button>
                             ) : (
-                                <button className="btn" onClick={openModal}>
+                                <button className="btn" onClick={openBookModal}>
                                     Book Now
                                 </button>
                             )}
@@ -152,8 +114,8 @@ export default function Hoteldetail() { // Assuming uId is passed as a prop
                 </>
             )}
             <Modal
-                isOpen={showModal}
-                onRequestClose={closeModal}
+                isOpen={showEditModal}
+                onRequestClose={closeModals}
                 className="modal-container"
                 overlayClassName="modal-overlay"
                 contentLabel="Edit Price Modal"
@@ -176,22 +138,22 @@ export default function Hoteldetail() { // Assuming uId is passed as a prop
                         <button type="submit" className="modal-button modal-submit">
                             Edit Price
                         </button>
-                        <button onClick={closeModal} className="modal-button modal-close">
+                        <button onClick={closeModals} className="modal-button modal-close">
                             Close
                         </button>
                     </div>
                 </form>
             </Modal>
             <Modal
-                isOpen={showModal}
-                onRequestClose={closeModal}
+                isOpen={showBookModal}
+                onRequestClose={closeModals}
                 className="modal-container"
                 overlayClassName="modal-overlay"
-                contentLabel="Modal"
+                contentLabel="Book Now Modal"
             >
                 <h2 className="modal-title" style={{ textAlign: "center" }}>Enter the Number to proceed</h2>
                 <p style={{ color: 'red', textAlign: 'center' }}>Number must start with <strong>+92</strong></p>
-                <form className="modal-form" onSubmit={closeModal}>
+                <form className="modal-form" onSubmit={handleMoveToCheckOut}>
                     <div>
                         <label>Contact Number:</label>
                         <input
@@ -203,10 +165,10 @@ export default function Hoteldetail() { // Assuming uId is passed as a prop
                         />
                     </div>
                     <div className="modal-buttons">
-                        <button onClick={() => handleMoveToCheckOut(hotel._id)} type="submit" className="modal-button modal-submit">
+                        <button type="submit" className="modal-button modal-submit">
                             Pay Now
                         </button>
-                        <button onClick={closeModal} className="modal-button modal-close">
+                        <button onClick={closeModals} className="modal-button modal-close">
                             Close
                         </button>
                     </div>
