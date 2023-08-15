@@ -12,7 +12,7 @@ function TripData(props) {
                 <img src={`http://localhost:5000/images/${props.image}`} alt="" />
             </div>
             <h4>{props.heading}</h4>
-            <p>{addElipse(props.text, 400)}</p>
+            <p>{addElipse(props.text, 100)}</p>
             <Link class="action" to={`/detail/${props.id}`}>
                 Find out more
                 <span aria-hidden="true">

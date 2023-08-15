@@ -4,6 +4,7 @@ import './trip.css'
 import TripData from './TripData'
 
 
+
 export default function Trip({ completedTours }) {
   return (
     <div className="trip">
