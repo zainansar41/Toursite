@@ -1,0 +1,25 @@
+/* AdminMainStyles.css */
+
+.admin_btn-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    gap : 20px;
+  }
+  
+  .admin_content-btn {
+    padding: 10px 20px;
+    border: none;
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .admin_content-btn.active {
+    background-color: #333;
+    color: #fff;
+  }
+  

@@ -348,21 +348,46 @@ export async function addHotel(req, res) {
         const { userID } = req.user
         const { name, description, price, image, location, contactNumber } = req.body
 
-        const hotel = new Hotel({
-            hotelName: name,
-            description,
-            perDayPrice: price,
-            contactNo: contactNumber,
-            location,
-            image,
-            userID
+
+        userModel.findOne({ _id: userID }).then(user => {
+            if (user.role === "admin") {
+                const hotel = new Hotel({
+                    hotelName: name,
+                    description,
+                    perDayPrice: price,
+                    contactNo: contactNumber,
+                    location,
+                    image,
+                    userID,
+                    confirmed: true
+                })
+                hotel.save().then(result => {
+                    return res.status(201).send({ msg: "hotel added successfully" })
+                }).catch(error => {
+                    return res.status(203).send({ msg: "hotel not added" })
+                })
+
+            }
+            else if (user.role === "HM") {
+                const hotel = new Hotel({
+                    hotelName: name,
+                    description,
+                    perDayPrice: price,
+                    contactNo: contactNumber,
+                    location,
+                    image,
+                    userID,
+                    confirmed: false
+                })
+                hotel.save().then(result => {
+                    return res.status(200).send({ msg: "request is pending" })
+                }).catch(error => {
+                    return res.status(203).send({ msg: "hotel not added" })
+                })
+            }
         })
 
-        hotel.save().then(result => {
-            return res.status(201).send({ msg: "hotel added successfully" })
-        }).catch(error => {
-            return res.status(203).send({ msg: "hotel not added" })
-        })
+
 
     } catch (error) {
         return res.status(500).send({ error });
@@ -401,37 +426,64 @@ export async function updatePrice(req, res) {
 }
 
 export async function fetchPeopleOfHotel(req, res) {
-    try{
+    try {
 
-        const {id} = req.params
+        const { id } = req.params
         console.log(id);
-        const orders = await Order.find({purchasedItem: id})
+        const orders = await Order.find({ purchasedItem: id })
         let people = []
-        for(const order of orders){
-            const user = await userModel.findOne({_id: order.userId});
-            people.push({user, order});
+        for (const order of orders) {
+            const user = await userModel.findOne({ _id: order.userId });
+            people.push({ user, order });
         }
         console.log(people)
-        return res.status(200).send({people});
+        return res.status(200).send({ people });
     }
-    catch{
+    catch {
 
     }
 }
 
 export async function addpeopleInHotel(req, res) {
-    try{
-        const {id} = req.params
-        const {userID} = req.body
+    try {
+        const { id } = req.params
+        const { userID } = req.body
 
-        const hotel = Hotel.findById({_id: id})
+        const hotel = Hotel.findById({ _id: id })
         console.log(hotel.hotelName);
         hotel.people.push(userID)
         await hotel.save()
-        return res.status(200).send({msg: "people added successfully"})
+        return res.status(200).send({ msg: "people added successfully" })
     }
-    catch(error){
-        console.log(error);
+    catch (error) {
         return res.status(500).send(error)
+    }
+}
+
+
+export async function AcceptRejectHotel(req, res){
+    try {
+        const { userID } = req.user;
+        const { id } = req.params;
+        const {action} = req.body
+        let msg;
+        let stat;
+        if(action === "accept"){
+            msg = "Hotel is added successfully"
+            stat= 201
+            await Hotel.updateOne({ _id: id }, { $set: { confirmed: true } });
+        }
+        else if(action === "reject"){
+            msg = "Hotel is rejected"
+            stat= 203
+            await Hotel.deleteOne({_id:id})
+
+        }
+        return res.status(stat).send({ msg })
+
+        
+    } catch (error) {   
+        return res.status(500).send(error)
+        
     }
 }

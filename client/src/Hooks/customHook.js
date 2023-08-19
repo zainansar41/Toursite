@@ -195,8 +195,8 @@ export async function addHotel(data) {
 
 export async function fetchAllHotels() {
     try {
-        
-        const {data:{hotels}} = await axios.get('/api/fetchAllHotel')
+
+        const { data: { hotels } } = await axios.get('/api/fetchAllHotel')
         return hotels
 
     } catch (error) {
@@ -206,17 +206,17 @@ export async function fetchAllHotels() {
 
 export async function fetchHotel(id) {
     try {
-        const {data:{hotel}} = await axios.get(`/api/fetchHotel/${id}`)
+        const { data: { hotel } } = await axios.get(`/api/fetchHotel/${id}`)
         return hotel
     } catch (error) {
         return error
     }
 }
 
-export async function updatePrice(id, price){
+export async function updatePrice(id, price) {
     try {
         const token = localStorage.getItem('token')
-        const {data:{msg}} = await axios.post(`/api/updatePrice/${id}`,{price},{headers:{"authorization":`Bearer ${token}`}})
+        const { data: { msg } } = await axios.post(`/api/updatePrice/${id}`, { price }, { headers: { "authorization": `Bearer ${token}` } })
         return msg
     } catch (error) {
         return error
@@ -224,12 +224,23 @@ export async function updatePrice(id, price){
 }
 
 
-export async function fetchPeopleOfHotel(id){
+export async function fetchPeopleOfHotel(id) {
     try {
+        const { data: { people } } = await axios.get(`/api/fetchPeopleOfHotel/${id}`)
+        return { people }
 
-        const {data:{people}} = await axios.get(`/api/fetchPeopleOfHotel/${id}`)
-        return {people}
-        
+    } catch (error) {
+        return error
+    }
+}
+
+
+export async function AcceptRejectHotel(id, action) {
+    try {
+        const token = localStorage.getItem('token')
+        const { data: { msg }, status } = await axios.post(`/api/AcceptRejectHotel/${id}`, { action }, { headers: { "authorization": `Bearer ${token}` } })
+
+        return { msg, status }
     } catch (error) {
         return error
     }

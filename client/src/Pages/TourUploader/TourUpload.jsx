@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './tourUpload.css';
 import toast, { Toaster } from 'react-hot-toast';
 import { uploadTour, addHotel } from '../../Hooks/customHook';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+
 
 export default function TourUpload() {
     const navigate = useNavigate();
+    const [role, setRole] = useState()
     const [formType, setFormType] = useState('tour'); // State to track whether Tour or Hotel form should be displayed
 
     const [tourFormData, setTourFormData] = useState({
@@ -30,6 +33,20 @@ export default function TourUpload() {
         contactNumber: '',
         userID: ''
     });
+
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const decodedToken = jwt_decode(token);
+            const { role } = decodedToken;
+            setRole(role);
+            console.log(role);
+            if (role === "HM") {
+                setFormType('hotel');
+            }
+        }
+    }, []);
 
     const handleChange = (event) => {
         const { name, value, type, files } = event.target;
@@ -72,7 +89,7 @@ export default function TourUpload() {
                 console.log('err>>>', err);
             }
         }
-    }; 
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -92,7 +109,9 @@ export default function TourUpload() {
                 toast.success(msg);
             }
             else {
-                toast.error(msg);
+                toast(msg, {
+                    icon: '👍',
+                });
             }
 
         }
@@ -105,20 +124,22 @@ export default function TourUpload() {
             <Toaster position="top-right" reverseOrder={false} />
             <div className="upload">
                 <h1 className="upload_heading">Upload a New {formType === 'tour' ? 'Tour' : 'Hotel'}</h1>
-                <div className="btn-container">
-                    <button
-                        className={`upload-btn ${formType === 'tour' ? 'active' : ''}`}
-                        onClick={() => setFormType('tour')}
-                    >
-                        Tour
-                    </button>
-                    <button
-                        className={`upload-btn ${formType === 'hotel' ? 'active' : ''}`}
-                        onClick={() => setFormType('hotel')}
-                    >
-                        Hotel
-                    </button>
-                </div>
+                {role !== "HM" && (
+                    <div className="btn-container">
+                        <button
+                            className={`upload-btn ${formType === 'tour' ? 'active' : ''}`}
+                            onClick={() => setFormType('tour')}
+                        >
+                            Tour
+                        </button>
+                        <button
+                            className={`upload-btn ${formType === 'hotel' ? 'active' : ''}`}
+                            onClick={() => setFormType('hotel')}
+                        >
+                            Hotel
+                        </button>
+                    </div>
+                )}
 
                 {formType === 'tour' ? (
                     // Form for Tour

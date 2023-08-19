@@ -34,6 +34,10 @@ const hotelSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user',
     }],
+    confirmed: {
+        type: Boolean,
+        default: false
+    }
 });
 
 const Hotel = mongoose.model("hotel", hotelSchema);

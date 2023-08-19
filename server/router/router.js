@@ -27,6 +27,9 @@ router.route('/fetchHotel/:id').get(controller.fetchHotel)
 router.route('/updatePrice/:id').post(auth, controller.updatePrice)
 router.route('/fetchPeopleOfHotel/:id').get(controller.fetchPeopleOfHotel)
 router.route('/addpeopleInHotel/:id').post(controller.addpeopleInHotel)
+router.route('/AcceptRejectHotel/:id').post(auth, controller.AcceptRejectHotel)
+
+//these are all routes for admin 
 
 
 export default router
