@@ -75,7 +75,7 @@ export async function login(req, res) {
                                 role: user.role,
                                 name: user.firstName
                             }, '@42/ahc', { expiresIn: "24h" })
-                            res.status(200).send({ msg: "You has been register successfully", token })
+                            res.status(200).send({ msg: "You has been Login successfully", token })
 
                         }
                         else {
@@ -226,9 +226,6 @@ export async function BookNow(req, res) {
     try {
         const { userID } = req.user;
         const { id } = req.body;
-
-        // Use the updateOne query with $push operator to add the userID to the people array
-        // const result = await Tour.updateOne({ _id: id }, { $push: { people: userID } });
 
         Tour.updateOne({ _id: id }, { $push: { people: userID } }).then(result => {
             res.status(201).send({ msg: "tour booked successfully" });

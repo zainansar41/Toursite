@@ -34,11 +34,6 @@ app.disable('x-powered-by')
 app.use(bodyParser.json({ limit: '10mb', type: 'application/json' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: false, parameterLimit: 100000 }));
 
-
-
-app.use(bodyParser.json({ limit: '10mb', type: 'application/json' }));
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: false, parameterLimit: 100000 }));
-
 app.get('/', (req, res) => {
     res.send("Home Get request")
 })

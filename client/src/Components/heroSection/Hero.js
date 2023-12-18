@@ -14,8 +14,6 @@ export default function Hero({ himg, htag, hbtn, head, hdesc, onSearch }) {
 
     return (
         <div className="hero">
-            
-
             <img src={himg} alt="home_hero" />
             <div className="hero_desc">
                 <h1 className="hero_heading">{head}</h1>
